@@ -127,7 +127,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
         this.processing = false;
 
         this.snackbar.open(`Registros cargados!`, "Bank System", {
-          duration: 10000,
+          duration: 3000,
         });
       },
       (err) => {
