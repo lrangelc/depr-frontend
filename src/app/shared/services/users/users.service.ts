@@ -10,18 +10,22 @@ import { AuthService } from "../auth/auth.service";
 export class UsersService {
   private url = `${environment.backend}/api/users`;
 
+  options = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${this.authService.userData.token}`,
+    },
+  };
   constructor(
     private httpClient: HttpClient,
     private authService: AuthService
   ) {}
 
   getUsers() {
-    const options = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.authService.userData.token}`,
-      },
-    };
-    return this.httpClient.get(this.url, options);
+    return this.httpClient.get(`${this.url}`, this.options);
+  }
+
+  deleteUser(userId: string) {
+    return this.httpClient.delete(`${this.url}/${userId}`, this.options);
   }
 }

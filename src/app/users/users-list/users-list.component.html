@@ -1,1 +1,191 @@
-<p>users-list works!</p>
+<div class="actions">
+  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="loadDocuments()"
+      [disabled]="processing"
+    >
+      Search
+    </button>
+  </div>
+</div>
+
+<mat-spinner *ngIf="processing"></mat-spinner>
+
+<mat-form-field appearance="standard">
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
+</mat-form-field>
+<button
+  mat-raised-button
+  color="warn"
+  (click)="deleteRecords()"
+  *ngIf="this.selection.selected.length > 0"
+>
+  Eliminar Registros
+</button>
+<p>Registros: {{ dataSource.data.length }}</p>
+
+<div class="mat-elevation-z8">
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    class="mat-elevation-z8"
+    matSort
+    (matSortChange)="announceSortChange($event)"
+  >
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox
+          (change)="$event ? toggleAllRows() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+          [aria-label]="checkboxLabel()"
+        >
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)"
+          [aria-label]="checkboxLabel(row)"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="_id">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by Id."
+      >
+        Id.
+      </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element._id }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by Name"
+      >
+        Name
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="nickname">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by Nickname"
+      >
+        Nickname
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.nickname }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="dpi">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by DPI"
+      >
+        DPI
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.dpi }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="address">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by Address"
+      >
+        Address
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.address }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by Phone"
+      >
+        Phone
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by Email"
+      >
+        Email
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="job">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by Job"
+      >
+        Job
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.job }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="monthlyIncome">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by Monthly Income"
+      >
+        Monthly Income
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.monthlyIncome  | number: '1.2-2'}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="userType">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        sortActionDescription="Sort by Type"
+      >
+        Type
+      </th>
+      <td mat-cell *matCellDef="let element">{{ element.userType }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[10, 20, 30]"
+    showFirstLastButtons
+    aria-label="Select page of attendace records"
+  >
+  </mat-paginator>
+</div>
