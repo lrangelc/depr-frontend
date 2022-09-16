@@ -1,19 +1,19 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { SidebarDirective } from '../../@fury/shared/sidebar/sidebar.directive';
-import { SidenavService } from './sidenav/sidenav.service';
-import { filter, map, startWith } from 'rxjs/operators';
-import { ThemeService } from '../../@fury/services/theme.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { checkRouterChildsData } from '../../@fury/utils/check-router-childs-data';
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { SidebarDirective } from "../../@fury/shared/sidebar/sidebar.directive";
+import { SidenavService } from "./sidenav/sidenav.service";
+import { filter, map, startWith } from "rxjs/operators";
+import { ThemeService } from "../../@fury/services/theme.service";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { checkRouterChildsData } from "../../@fury/utils/check-router-childs-data";
+import { AuthService } from "../shared/auth/auth.service";
 
 @Component({
-  selector: 'fury-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  selector: "fury-layout",
+  templateUrl: "./layout.component.html",
+  styleUrls: ["./layout.component.scss"],
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-
-  @ViewChild('configPanel', { static: true }) configPanel: SidebarDirective;
+  @ViewChild("configPanel", { static: true }) configPanel: SidebarDirective;
 
   sidenavOpen$ = this.sidenavService.open$;
   sidenavMode$ = this.sidenavService.mode$;
@@ -21,24 +21,91 @@ export class LayoutComponent implements OnInit, OnDestroy {
   sidenavExpanded$ = this.sidenavService.expanded$;
   quickPanelOpen: boolean;
 
-  sideNavigation$ = this.themeService.config$.pipe(map(config => config.navigation === 'side'));
-  topNavigation$ = this.themeService.config$.pipe(map(config => config.navigation === 'top'));
-  toolbarVisible$ = this.themeService.config$.pipe(map(config => config.toolbarVisible));
-  toolbarPosition$ = this.themeService.config$.pipe(map(config => config.toolbarPosition));
-  footerPosition$ = this.themeService.config$.pipe(map(config => config.footerPosition));
-
-  scrollDisabled$ = this.router.events.pipe(
-    filter<NavigationEnd>(event => event instanceof NavigationEnd),
-    startWith(null),
-    map(() => checkRouterChildsData(this.router.routerState.root.snapshot, data => data.scrollDisabled))
+  sideNavigation$ = this.themeService.config$.pipe(
+    map((config) => config.navigation === "side")
+  );
+  topNavigation$ = this.themeService.config$.pipe(
+    map((config) => config.navigation === "top")
+  );
+  toolbarVisible$ = this.themeService.config$.pipe(
+    map((config) => config.toolbarVisible)
+  );
+  toolbarPosition$ = this.themeService.config$.pipe(
+    map((config) => config.toolbarPosition)
+  );
+  footerPosition$ = this.themeService.config$.pipe(
+    map((config) => config.footerPosition)
   );
 
-  constructor(private sidenavService: SidenavService,
-              private themeService: ThemeService,
-              private route: ActivatedRoute,
-              private router: Router) {}
+  scrollDisabled$ = this.router.events.pipe(
+    filter<NavigationEnd>((event) => event instanceof NavigationEnd),
+    startWith(null),
+    map(() =>
+      checkRouterChildsData(
+        this.router.routerState.root.snapshot,
+        (data) => data.scrollDisabled
+      )
+    )
+  );
 
-  ngOnInit() {}
+  constructor(
+    private sidenavService: SidenavService,
+    private themeService: ThemeService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    this.sidenavService.removeItems();
+
+    const menuBase = [
+      {
+        name: "Dashboard",
+        routeOrFunction: "/",
+        icon: "dashboard",
+        position: 10,
+        pathMatchExact: true,
+      },
+      {
+        name: "Favoritos",
+        routeOrFunction: "/tables/all-in-one-table",
+        icon: "assignment",
+        badge: "22",
+        badgeColor: "#2196F3",
+        position: 15,
+      },
+      {
+        name: "Cuentas",
+        routeOrFunction: "/apps/calendar",
+        icon: "date_range",
+        position: 20,
+      },
+      {
+        name: "Inbox",
+        routeOrFunction: "/apps/inbox",
+        icon: "inbox",
+        position: 25,
+      },
+    ];
+
+    if (this.authService.userData.userType === "admin") {
+      menuBase.push({
+        name: "Administrar Usuarios",
+        routeOrFunction: "/components",
+        icon: "layers",
+        position: 40,
+      });
+      menuBase.push({
+        name: "Administrar Cuentas",
+        routeOrFunction: "/drag-and-drop",
+        icon: "mouse",
+        position: 55,
+      });
+    }
+
+    this.sidenavService.addItems(menuBase);
+  }
 
   openQuickPanel() {
     this.quickPanelOpen = true;
@@ -58,4 +125,3 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 }
-
