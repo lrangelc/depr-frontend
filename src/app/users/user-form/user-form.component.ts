@@ -6,10 +6,10 @@ import {
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { IUserType } from "src/app/interfaces/user.interface";
+
+import { IUser, IUserType } from "src/app/interfaces/user.interface";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
-import { IUser } from "../users-list/users-list.component";
 
 @Component({
   selector: "fury-user-form",

@@ -13,25 +13,12 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSort, Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Observable, Subscription } from "rxjs";
+
 import { ListColumn } from "src/app/models/list-column.model";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { DialogService } from "src/app/shared/services/dialog/dialog.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
-
-export interface IUser {
-  _id: string;
-
-  name: string;
-  nickname: string;
-  dpi: string;
-  address: string;
-  phone: string;
-  email: string;
-  job: string;
-  monthlyIncome?: number;
-  userType: string;
-  password?: string;
-}
+import { IUser } from "src/app/interfaces/user.interface";
 
 const ELEMENT_DATA: IUser[] = [];
 
