@@ -55,6 +55,13 @@ export class LoginComponent implements OnInit {
         },
         (err) => {
           console.error(err);
+          this.snackbar.open(
+            `${err.error.message ?? "Usuario invalido."}`,
+            "Bank System",
+            {
+              duration: 3000,
+            }
+          );
         }
       );
   }

@@ -123,7 +123,13 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
   loadDocuments() {
     this.usersService.getUsers().subscribe(
       (response: any) => {
-        this.fillDataSource(response);
+        const users = response.filter((element) => {
+          return (
+            element.userType === "user" ||
+            element._id === this.authService.userData.userId
+          );
+        });
+        this.fillDataSource(users);
         this.processing = false;
 
         this.snackbar.open(`Registros cargados!`, "Bank System", {

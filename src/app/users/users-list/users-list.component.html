@@ -1,17 +1,28 @@
 <div class="actions">
-  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
-    <button
-      mat-raised-button
-      color="accent"
-      (click)="loadDocuments()"
-      [disabled]="processing"
-    >
-      Search
-    </button>
+  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px">
+    <div fxLayout="column" fxLayoutGap="8px">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="loadDocuments()"
+        [disabled]="processing"
+      >
+        <mat-icon>search</mat-icon>
+        Search
+      </button>
+    </div>
 
-    <button mat-mini-fab [routerLink]="['./new']">
-      <mat-icon>add</mat-icon>
-    </button>
+    <div fxLayout="column" fxLayoutGap="8px">
+      <button
+        mat-raised-button
+        color="accent"
+        class="ml-5"
+        [routerLink]="['./new']"
+      >
+        <mat-icon>add</mat-icon>
+        Nuevo Usuario
+      </button>
+    </div>
   </div>
 </div>
 

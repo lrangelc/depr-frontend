@@ -6,140 +6,153 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div class="form-group row">
-        <mat-form-field class="col-md-6 col-sm-12">
-          <mat-label>
-            {{ "name" }}
-          </mat-label>
-          <input matInput type="text" required [formControlName]="'name'" />
-          <mat-error *ngIf="name?.errors">
-            {{ name! | formErrorHandler }}</mat-error
-          >
-        </mat-form-field>
-      </div>
+      <div class="result" fxLayout="column">
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+          <mat-form-field fxFlex="auto">
+            <mat-label>
+              {{ "name" }}
+            </mat-label>
+            <input matInput type="text" required [formControlName]="'name'" />
+            <mat-error *ngIf="name?.errors">
+              {{ name! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
+        </div>
 
-      <div class="form-group row">
-        <mat-form-field class="col-12">
-          <mat-label>
-            {{ "nickname" }}
-          </mat-label>
-          <input matInput type="text" required [formControlName]="'nickname'" />
-          <mat-error *ngIf="nickname?.errors">
-            {{ nickname! | formErrorHandler }}</mat-error
-          >
-        </mat-form-field>
-      </div>
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+          <mat-form-field class="col-12">
+            <mat-label>
+              {{ "nickname" }}
+            </mat-label>
+            <input
+              matInput
+              type="text"
+              required
+              [formControlName]="'nickname'"
+            />
+            <mat-error *ngIf="nickname?.errors">
+              {{ nickname! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
+        </div>
 
-      <div class="form-group row">
-        <mat-form-field class="col-md-6 col-sm-12">
-          <mat-label>
-            {{ "dpi" }}
-          </mat-label>
-          <input type="text" required [formControlName]="'dpi'" matInput />
-          <mat-error *ngIf="dpi?.errors">
-            {{ dpi! | formErrorHandler }}</mat-error
-          >
-        </mat-form-field>
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+          <mat-form-field fxFlex="auto">
+            <mat-label>
+              {{ "dpi" }}
+            </mat-label>
+            <input type="text" required [formControlName]="'dpi'" matInput />
+            <mat-error *ngIf="dpi?.errors">
+              {{ dpi! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
 
-        <mat-form-field class="col-md-6 col-sm-12">
-          <mat-label>
-            {{ "address" }}
-          </mat-label>
-          <input matInput type="text" required [formControlName]="'address'" />
-          <mat-error *ngIf="address?.errors">
-            {{ address! | formErrorHandler }}</mat-error
-          >
-        </mat-form-field>
-      </div>
+          <mat-form-field fxFlex="auto">
+            <mat-label>
+              {{ "address" }}
+            </mat-label>
+            <input
+              matInput
+              type="text"
+              required
+              [formControlName]="'address'"
+            />
+            <mat-error *ngIf="address?.errors">
+              {{ address! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
+        </div>
 
-      <div class="form-group row">
-        <mat-form-field class="col-md-6 col-sm-12">
-          <mat-label>
-            {{ "phone" }}
-          </mat-label>
-          <input type="text" [formControlName]="'phone'" matInput />
-          <mat-error *ngIf="phone?.errors">
-            {{ phone! | formErrorHandler }}</mat-error
-          >
-        </mat-form-field>
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+          <mat-form-field fxFlex="auto">
+            <mat-label>
+              {{ "phone" }}
+            </mat-label>
+            <input type="text" [formControlName]="'phone'" matInput />
+            <mat-error *ngIf="phone?.errors">
+              {{ phone! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
 
-        <mat-form-field class="col-md-6 col-sm-12">
-          <mat-label>
-            {{ "job" }}
-          </mat-label>
-          <input type="text" [formControlName]="'job'" matInput />
-          <mat-error *ngIf="job?.errors">
-            {{ job! | formErrorHandler }}</mat-error
-          >
-        </mat-form-field>
-      </div>
+          <mat-form-field fxFlex="auto">
+            <mat-label>
+              {{ "job" }}
+            </mat-label>
+            <input type="text" [formControlName]="'job'" matInput />
+            <mat-error *ngIf="job?.errors">
+              {{ job! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
+        </div>
 
-      <div class="form-group row">
-        <mat-form-field class="col-md-6 col-sm-12">
-          <mat-label>
-            {{ "email" }}
-          </mat-label>
-          <input matInput type="text" [formControlName]="'email'" />
-          <mat-error *ngIf="email?.errors">
-            {{ email! | formErrorHandler }}</mat-error
-          >
-        </mat-form-field>
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+          <mat-form-field fxFlex="auto">
+            <mat-label>
+              {{ "email" }}
+            </mat-label>
+            <input matInput type="text" [formControlName]="'email'" />
+            <mat-error *ngIf="email?.errors">
+              {{ email! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
 
-        <mat-form-field class="col-md-6 col-sm-12">
-          <mat-label>
-            {{ "password" }}
-          </mat-label>
-          <input matInput type="text" [formControlName]="'password'" />
-          <mat-error *ngIf="password?.errors">
-            {{ password! | formErrorHandler }}</mat-error
-          >
-        </mat-form-field>
-      </div>
+          <mat-form-field fxFlex="auto">
+            <mat-label>
+              {{ "password" }}
+            </mat-label>
+            <input matInput type="text" [formControlName]="'password'" />
+            <mat-error *ngIf="password?.errors">
+              {{ password! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
+        </div>
 
-      <div class="form-group row">
-        <mat-form-field class="col-md-6 col-sm-12">
-          <mat-label>
-            {{ "type" }}
-          </mat-label>
-          <mat-select formControlName="userType" class="margin-bottom">
-            <mat-option *ngFor="let option of userTypes" [value]="option">
-              {{ option }}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="userType?.errors">
-            {{ userType! | formErrorHandler }}</mat-error
-          >
-        </mat-form-field>
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+          <mat-form-field fxFlex="auto">
+            <mat-label>
+              {{ "type" }}
+            </mat-label>
+            <mat-select formControlName="userType">
+              <mat-option *ngFor="let option of userTypes" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="userType?.errors">
+              {{ userType! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
 
-        <mat-form-field class="col-md-6 col-sm-12">
-          <mat-label>
-            {{ "monthlyIncome" }}
-          </mat-label>
-          <input
-            matInput
-            type="number"
-            step="1"
-            required
-            [formControlName]="'monthlyIncome'"
-          />
-          <mat-error *ngIf="monthlyIncome?.errors">
-            {{ monthlyIncome! | formErrorHandler }}</mat-error
-          >
-        </mat-form-field>
+          <mat-form-field fxFlex="auto">
+            <mat-label>
+              {{ "monthlyIncome" }}
+            </mat-label>
+            <input
+              matInput
+              type="number"
+              step="1"
+              required
+              [formControlName]="'monthlyIncome'"
+            />
+            <mat-error *ngIf="monthlyIncome?.errors">
+              {{ monthlyIncome! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
+        </div>
       </div>
     </mat-card-content>
 
     <mat-card-actions>
-      <a mat-raised-button routerLink="/users">{{
-        "cancel"
-      }}</a>
+      <a mat-raised-button routerLink="/users"
+        ><mat-icon>cancel</mat-icon>Cancelar</a
+      >
       <button
         mat-raised-button
         type="submit"
         [disabled]="form.invalid"
         color="primary"
       >
-        {{ "submit" }}
+        <mat-icon>save</mat-icon>
+        Guardar
       </button>
     </mat-card-actions>
   </mat-card>
