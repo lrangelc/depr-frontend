@@ -51,10 +51,10 @@
       <h5 class="sidenav-user-email">{{ authService.userData.email }}</h5>
 
       <div class="sidenav-user-icons" fxLayout="row">
-        <a [routerLink]="['/tables/all-in-one-table']" mat-icon-button>
+        <a [routerLink]="['/favorites']" mat-icon-button>
           <mat-icon>assignment</mat-icon>
         </a>
-        <a [routerLink]="['/apps/calendar']" mat-icon-button>
+        <a [routerLink]="['accounts/by-owner']" mat-icon-button>
           <mat-icon>date_range</mat-icon>
         </a>
         <a (click)="logout()" mat-icon-button>

@@ -71,7 +71,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         name: "Favoritos",
         routeOrFunction: "/favorites",
         icon: "assignment",
-        badge: "22",
+        // badge: "22",
         badgeColor: "#2196F3",
         position: 15,
       },
