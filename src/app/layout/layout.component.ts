@@ -5,7 +5,7 @@ import { filter, map, startWith } from "rxjs/operators";
 import { ThemeService } from "../../@fury/services/theme.service";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { checkRouterChildsData } from "../../@fury/utils/check-router-childs-data";
-import { AuthService } from "../shared/auth/auth.service";
+import { AuthService } from "../shared/services/auth/auth.service";
 
 @Component({
   selector: "fury-layout",

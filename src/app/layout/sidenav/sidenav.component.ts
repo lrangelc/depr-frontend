@@ -12,7 +12,7 @@ import { map } from "rxjs/operators";
 import { SidenavItem } from "./sidenav-item/sidenav-item.interface";
 import { SidenavService } from "./sidenav.service";
 import { ThemeService } from "../../../@fury/services/theme.service";
-import { AuthService } from "src/app/shared/auth/auth.service";
+import { AuthService } from "src/app/shared/services/auth/auth.service";
 
 @Component({
   selector: "fury-sidenav",
