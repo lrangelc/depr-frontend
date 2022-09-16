@@ -1,14 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { AccountsRoutingModule } from './accounts-routing.module';
-
+import { AccountsRoutingModule } from "./accounts-routing.module";
+import { AccountsListComponent } from "./accounts-list/accounts-list.component";
+import { AccountsByOwnerComponent } from './accounts-by-owner/accounts-by-owner.component';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    AccountsRoutingModule
-  ]
+  declarations: [AccountsListComponent, AccountsByOwnerComponent],
+  imports: [CommonModule, AccountsRoutingModule],
 })
-export class AccountsModule { }
+export class AccountsModule {}

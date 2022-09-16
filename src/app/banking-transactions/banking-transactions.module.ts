@@ -1,14 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { BankingTransactionsRoutingModule } from './banking-transactions-routing.module';
-
+import { BankingTransactionsRoutingModule } from "./banking-transactions-routing.module";
+import { TransferComponent } from "./transfer/transfer.component";
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    BankingTransactionsRoutingModule
-  ]
+  declarations: [TransferComponent],
+  imports: [CommonModule, BankingTransactionsRoutingModule],
 })
-export class BankingTransactionsModule { }
+export class BankingTransactionsModule {}

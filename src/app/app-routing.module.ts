@@ -31,61 +31,79 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'apps/inbox',
-        loadChildren: () => import('./pages/apps/inbox/inbox.module').then(m => m.InboxModule),
+        path: 'users',
+        loadChildren: () => import('./users/users.module').then(m => m.UsersModule),
       },
       {
-        path: 'apps/calendar',
-        loadChildren: () => import('./pages/apps/calendar/calendar.module').then(m => m.CalendarAppModule),
+        path: 'accounts',
+        loadChildren: () => import('./accounts/accounts.module').then(m => m.AccountsModule),
       },
       {
-        path: 'apps/chat',
-        loadChildren: () => import('./pages/apps/chat/chat.module').then(m => m.ChatModule),
+        path: 'favorites',
+        loadChildren: () => import('./favorites/favorites.module').then(m => m.FavoritesModule),
       },
       {
-        path: 'components',
-        loadChildren: () => import('./pages/components/components.module').then(m => m.ComponentsModule),
+        path: 'banking-transactions',
+        loadChildren: () => import('./banking-transactions/banking-transactions.module').then(m => m.BankingTransactionsModule),
       },
-      {
-        path: 'forms/form-elements',
-        loadChildren: () => import('./pages/forms/form-elements/form-elements.module').then(m => m.FormElementsModule),
-      },
-      {
-        path: 'forms/form-wizard',
-        loadChildren: () => import('./pages/forms/form-wizard/form-wizard.module').then(m => m.FormWizardModule),
-      },
-      {
-        path: 'icons',
-        loadChildren: () => import('./pages/icons/icons.module').then(m => m.IconsModule),
-      },
-      {
-        path: 'page-layouts',
-        loadChildren: () => import('./pages/page-layouts/page-layouts.module').then(m => m.PageLayoutsModule),
-      },
-      {
-        path: 'maps/google-maps',
-        loadChildren: () => import('./pages/maps/google-maps/google-maps.module').then(m => m.GoogleMapsModule),
-      },
-      {
-        path: 'tables/all-in-one-table',
-        loadChildren: () => import('./pages/tables/all-in-one-table/all-in-one-table.module').then(m => m.AllInOneTableModule),
-      },
-      {
-        path: 'drag-and-drop',
-        loadChildren: () => import('./pages/drag-and-drop/drag-and-drop.module').then(m => m.DragAndDropModule)
-      },
-      {
-        path: 'editor',
-        loadChildren: () => import('./pages/editor/editor.module').then(m => m.EditorModule),
-      },
-      {
-        path: 'blank',
-        loadChildren: () => import('./pages/blank/blank.module').then(m => m.BlankModule),
-      },
-      {
-        path: 'level1/level2/level3/level4/level5',
-        loadChildren: () => import('./pages/level5/level5.module').then(m => m.Level5Module),
-      },
+
+
+      // {
+      //   path: 'apps/inbox',
+      //   loadChildren: () => import('./pages/apps/inbox/inbox.module').then(m => m.InboxModule),
+      // },
+      // {
+      //   path: 'apps/calendar',
+      //   loadChildren: () => import('./pages/apps/calendar/calendar.module').then(m => m.CalendarAppModule),
+      // },
+      // {
+      //   path: 'apps/chat',
+      //   loadChildren: () => import('./pages/apps/chat/chat.module').then(m => m.ChatModule),
+      // },
+      // {
+      //   path: 'components',
+      //   loadChildren: () => import('./pages/components/components.module').then(m => m.ComponentsModule),
+      // },
+      // {
+      //   path: 'forms/form-elements',
+      //   loadChildren: () => import('./pages/forms/form-elements/form-elements.module').then(m => m.FormElementsModule),
+      // },
+      // {
+      //   path: 'forms/form-wizard',
+      //   loadChildren: () => import('./pages/forms/form-wizard/form-wizard.module').then(m => m.FormWizardModule),
+      // },
+      // {
+      //   path: 'icons',
+      //   loadChildren: () => import('./pages/icons/icons.module').then(m => m.IconsModule),
+      // },
+      // {
+      //   path: 'page-layouts',
+      //   loadChildren: () => import('./pages/page-layouts/page-layouts.module').then(m => m.PageLayoutsModule),
+      // },
+      // {
+      //   path: 'maps/google-maps',
+      //   loadChildren: () => import('./pages/maps/google-maps/google-maps.module').then(m => m.GoogleMapsModule),
+      // },
+      // {
+      //   path: 'tables/all-in-one-table',
+      //   loadChildren: () => import('./pages/tables/all-in-one-table/all-in-one-table.module').then(m => m.AllInOneTableModule),
+      // },
+      // {
+      //   path: 'drag-and-drop',
+      //   loadChildren: () => import('./pages/drag-and-drop/drag-and-drop.module').then(m => m.DragAndDropModule)
+      // },
+      // {
+      //   path: 'editor',
+      //   loadChildren: () => import('./pages/editor/editor.module').then(m => m.EditorModule),
+      // },
+      // {
+      //   path: 'blank',
+      //   loadChildren: () => import('./pages/blank/blank.module').then(m => m.BlankModule),
+      // },
+      // {
+      //   path: 'level1/level2/level3/level4/level5',
+      //   loadChildren: () => import('./pages/level5/level5.module').then(m => m.Level5Module),
+      // },
     ]
   }
 ];

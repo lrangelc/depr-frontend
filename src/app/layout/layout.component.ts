@@ -69,7 +69,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       },
       {
         name: "Favoritos",
-        routeOrFunction: "/tables/all-in-one-table",
+        routeOrFunction: "/favorites",
         icon: "assignment",
         badge: "22",
         badgeColor: "#2196F3",
@@ -77,13 +77,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
       },
       {
         name: "Cuentas",
-        routeOrFunction: "/apps/calendar",
+        routeOrFunction: "/accounts/by-owner",
         icon: "date_range",
         position: 20,
       },
       {
-        name: "Inbox",
-        routeOrFunction: "/apps/inbox",
+        name: "Transferencias",
+        routeOrFunction: "/banking-transactions",
         icon: "inbox",
         position: 25,
       },
@@ -92,13 +92,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
     if (this.authService.userData.userType === "admin") {
       menuBase.push({
         name: "Administrar Usuarios",
-        routeOrFunction: "/components",
+        routeOrFunction: "/users",
         icon: "layers",
         position: 40,
       });
       menuBase.push({
         name: "Administrar Cuentas",
-        routeOrFunction: "/drag-and-drop",
+        routeOrFunction: "/accounts",
         icon: "mouse",
         position: 55,
       });
