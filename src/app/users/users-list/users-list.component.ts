@@ -3,6 +3,7 @@ import { SelectionModel } from "@angular/cdk/collections";
 import {
   AfterViewInit,
   Component,
+  Input,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -12,7 +13,9 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSort, Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Observable, Subscription } from "rxjs";
+import { ListColumn } from "src/app/models/list-column.model";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
+import { DialogService } from "src/app/shared/services/dialog/dialog.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 
 export interface IUser {
@@ -45,33 +48,23 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
   subs: Subscription[] = [];
   attendanceRecords$!: Observable<any>;
 
+  @Input()
+  columns: ListColumn[] = [] as ListColumn[];
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  displayedColumns: string[] = [
-    "select",
-    "_id",
-    "name",
-    "nickname",
-    "dpi",
-    "address",
-    "phone",
-    "email",
-    "job",
-    "monthlyIncome",
-    "userType",
-  ];
-
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
     private _liveAnnouncer: LiveAnnouncer,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private dialogService: DialogService
   ) {}
 
   ngOnInit(): void {
+    this.setColumns();
     this.loadDocuments();
   }
 
@@ -165,6 +158,137 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
       this.selection.clear();
+    }
+  }
+  setColumns() {
+    this.columns = [
+      {
+        name: `select`,
+        property: "select",
+        visible: true,
+        isModelProperty: false,
+      },
+      {
+        name: `Id.`,
+        property: "_id",
+        visible: true,
+        isModelProperty: true,
+      },
+      {
+        name: `Name`,
+        property: "name",
+        visible: true,
+        isModelProperty: true,
+      },
+      {
+        name: `Nickname`,
+        property: "nickname",
+        visible: true,
+        isModelProperty: true,
+      },
+      {
+        name: `DPI`,
+        property: "dpi",
+        visible: true,
+        isModelProperty: true,
+      },
+      {
+        name: `Address`,
+        property: "address",
+        visible: true,
+        isModelProperty: true,
+      },
+      {
+        name: `Phone`,
+        property: "phone",
+        visible: true,
+        isModelProperty: true,
+      },
+      {
+        name: `Email`,
+        property: "email",
+        visible: true,
+        isModelProperty: true,
+      },
+      {
+        name: `Job`,
+        property: "job",
+        visible: true,
+        isModelProperty: true,
+      },
+      {
+        name: `Monthly Income`,
+        property: "monthlyIncome",
+        visible: true,
+        isModelProperty: true,
+      },
+      {
+        name: `Type`,
+        property: "userType",
+        visible: true,
+        isModelProperty: true,
+      },
+      {
+        name: `actions`,
+        property: "actions",
+        visible: true,
+        isModelProperty: false,
+      },
+    ] as ListColumn[];
+  }
+
+  get visibleColumns() {
+    try {
+      return this.columns
+        .filter((column) => column.visible)
+        .map((column) => column.property);
+    } catch (err) {
+      console.error(err);
+      return [];
+    }
+  }
+
+  delete(document: IUser) {
+    if (this.authService.userData.userId !== document._id) {
+      this.dialogService
+        .openConfirmationDialog(
+          "confirmation",
+          "Eliminar Usuario",
+          `¿Estas seguro de eliminar el usuario ${document.name}?`,
+          "Cancelar",
+          "Eliminar"
+        )
+        .afterClosed()
+        .subscribe((res) => {
+          if (res) {
+            this.deleteDocument(document);
+          }
+        });
+    }
+  }
+
+  deleteDocument(document: IUser) {
+    try {
+      this.usersService.deleteUser(document._id).subscribe(
+        (response: any) => {
+          if (response.success) {
+            this.loadDocuments();
+
+            this.snackbar.open(
+              `Se ha eliminado el usuario ${document.name}`,
+              "Bank System",
+              {
+                duration: 3000,
+              }
+            );
+          }
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
+    } catch (err) {
+      console.error(err);
     }
   }
 }

@@ -1,0 +1,58 @@
+<div class="container" *ngIf="data.type === 'confirmation'">
+  <div class="row justify-content-end">
+    <button
+      mat-icon-button
+      class="text-color mat-icon"
+      [mat-dialog-close]="false"
+      [disableRipple]="true"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="row">
+    <h2 class="align-self-center primary-color dialog-title">
+      {{ data.dialogTitle }}
+    </h2>
+  </div>
+  <div class="row">
+    <p class="text-color confirm-dialog-content">{{ data.dialogContent }}</p>
+  </div>
+  <div class="row justify-content-between">
+    <button
+      class="cancel-button primary-color cancel-button-margin"
+      mat-button
+      [mat-dialog-close]="false"
+    >
+      {{ data.cancelBtnText }}
+    </button>
+    <button
+      class="accept-button margin-button submit-button-margin"
+      mat-button
+      [mat-dialog-close]="true"
+    >
+      {{ data.submitBtnText }}
+    </button>
+  </div>
+</div>
+<div class="container" *ngIf="data.type === 'notification'">
+  <div class="row justify-content-end">
+    <button
+      mat-icon-button
+      class="text-color close-icon"
+      [mat-dialog-close]="false"
+      [disableRipple]="true"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="row">
+    <mat-icon class="not-mat-icon primary-color">{{ data.icon }}</mat-icon>
+  </div>
+  <div class="row">
+    <p class="text-color dialog-content">
+      {{ data.messageStart }}
+      <span class="bold-message">{{ data.messageMiddle }}</span>
+      {{ data.messageEnd }}
+    </p>
+  </div>
+</div>
