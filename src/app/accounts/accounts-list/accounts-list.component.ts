@@ -17,21 +17,21 @@ import { Observable, Subscription } from "rxjs";
 import { ListColumn } from "src/app/models/list-column.model";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { DialogService } from "src/app/shared/services/dialog/dialog.service";
-import { UsersService } from "src/app/shared/services/users/users.service";
-import { IUser } from "src/app/interfaces/user.interface";
+import { AccountsService } from "src/app/shared/services/accounts/accounts.service";
+import { IAccount } from "src/app/interfaces/account.interface";
 
-const ELEMENT_DATA: IUser[] = [];
+const ELEMENT_DATA: IAccount[] = [];
 
 @Component({
-  selector: 'fury-accounts-list',
-  templateUrl: './accounts-list.component.html',
-  styleUrls: ['./accounts-list.component.scss']
+  selector: "fury-accounts-list",
+  templateUrl: "./accounts-list.component.html",
+  styleUrls: ["./accounts-list.component.scss"],
 })
 export class AccountsListComponent implements OnInit, AfterViewInit, OnDestroy {
   processing = false;
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-  selection = new SelectionModel<IUser>(true, []);
+  selection = new SelectionModel<IAccount>(true, []);
 
   subs: Subscription[] = [];
   attendanceRecords$!: Observable<any>;
@@ -45,7 +45,7 @@ export class AccountsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private usersService: UsersService,
+    private accountsService: AccountsService,
     private _liveAnnouncer: LiveAnnouncer,
     private snackbar: MatSnackBar,
     private dialogService: DialogService
@@ -98,7 +98,7 @@ export class AccountsListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.selection.select(...this.dataSource.data);
   }
 
-  checkboxLabel(row?: IUser): string {
+  checkboxLabel(row?: IAccount): string {
     if (!row) {
       return `${this.isAllSelected() ? "deselect" : "select"} all`;
     }
@@ -108,15 +108,14 @@ export class AccountsListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadDocuments() {
-    this.usersService.getUsers().subscribe(
+    this.accountsService.getAccounts().subscribe(
       (response: any) => {
-        const users = response.filter((element) => {
-          return (
-            element.userType === "user" ||
-            element._id === this.authService.userData.userId
-          );
+        response.forEach((element) => {
+          if (!element.lastTransaction) {
+            element.lastTransaction = {};
+          }
         });
-        this.fillDataSource(users);
+        this.fillDataSource(response);
         this.processing = false;
 
         this.snackbar.open(`Registros cargados!`, "Bank System", {
@@ -131,24 +130,22 @@ export class AccountsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   deleteRecords() {
     if (this.selection.selected.length > 0) {
-      let newArray: IUser[] = [...this.dataSource.data];
+      let newArray: IAccount[] = [...this.dataSource.data];
 
-      this.selection.selected.forEach((elementToDelete: IUser) => {
-        if (this.authService.userData.userId !== elementToDelete._id) {
-          this.usersService.deleteUser(elementToDelete._id).subscribe(
-            (response: any) => {
-              if (response.success) {
-                newArray = newArray.filter(
-                  (element) => element._id !== elementToDelete._id
-                );
-                this.fillDataSource(newArray);
-              }
-            },
-            (err) => {
-              console.error(err);
+      this.selection.selected.forEach((elementToDelete: IAccount) => {
+        this.accountsService.deleteAccount(elementToDelete._id).subscribe(
+          (response: any) => {
+            if (response.success) {
+              newArray = newArray.filter(
+                (element) => element._id !== elementToDelete._id
+              );
+              this.fillDataSource(newArray);
             }
-          );
-        }
+          },
+          (err) => {
+            console.error(err);
+          }
+        );
       });
 
       this.selection.clear();
@@ -175,50 +172,56 @@ export class AccountsListComponent implements OnInit, AfterViewInit, OnDestroy {
         isModelProperty: true,
       },
       {
-        name: `Nickname`,
-        property: "nickname",
+        name: `Code`,
+        property: "code",
         visible: true,
         isModelProperty: true,
       },
       {
-        name: `DPI`,
-        property: "dpi",
+        name: `Credito`,
+        property: "totalCredit",
         visible: true,
         isModelProperty: true,
       },
       {
-        name: `Address`,
-        property: "address",
+        name: `Debito`,
+        property: "totalDebit",
         visible: true,
         isModelProperty: true,
       },
       {
-        name: `Phone`,
-        property: "phone",
+        name: `Available Balance`,
+        property: "availableBalance",
         visible: true,
         isModelProperty: true,
       },
       {
-        name: `Email`,
-        property: "email",
+        name: `Transactions`,
+        property: "countTransactions",
         visible: true,
         isModelProperty: true,
       },
       {
-        name: `Job`,
-        property: "job",
+        name: `Ultima Transaccion`,
+        property: "lastTransaction",
         visible: true,
         isModelProperty: true,
       },
       {
-        name: `Monthly Income`,
-        property: "monthlyIncome",
+        name: `Tipo`,
+        property: "lastTransaction.type",
         visible: true,
         isModelProperty: true,
       },
       {
-        name: `Type`,
-        property: "userType",
+        name: `Descripcion`,
+        property: "lastTransaction.description",
+        visible: true,
+        isModelProperty: true,
+      },
+      {
+        name: `Monto`,
+        property: "lastTransaction.amount",
         visible: true,
         isModelProperty: true,
       },
@@ -242,7 +245,7 @@ export class AccountsListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  delete(document: IUser) {
+  delete(document: IAccount) {
     if (this.authService.userData.userId !== document._id) {
       this.dialogService
         .openConfirmationDialog(
@@ -261,9 +264,9 @@ export class AccountsListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  deleteDocument(document: IUser) {
+  deleteDocument(document: IAccount) {
     try {
-      this.usersService.deleteUser(document._id).subscribe(
+      this.accountsService.deleteAccount(document._id).subscribe(
         (response: any) => {
           if (response.success) {
             this.loadDocuments();
