@@ -27,11 +27,11 @@
           <span>Settings</span>
         </div>
         <div class="list-item" matRipple>
-          <mat-icon class="list-item-icon" (click)="logout()">help</mat-icon>
+          <mat-icon class="list-item-icon">help</mat-icon>
           <span>Help</span>
         </div>
         <mat-divider></mat-divider>
-        <div class="list-item" matRipple [routerLink]="['/login']">
+        <div class="list-item" matRipple (click)="logout()">
           <mat-icon class="list-item-icon">exit_to_app</mat-icon>
           <span>Logout</span>
         </div>

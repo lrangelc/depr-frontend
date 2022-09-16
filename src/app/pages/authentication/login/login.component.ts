@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
               `Welcome ${response.data.nickname ?? response.data.name}!`,
               "Bank System",
               {
-                duration: 10000,
+                duration: 3000,
               }
             );
           }

@@ -17,7 +17,12 @@ export class AuthService {
   authState$ = this._authStateSubject.asObservable();
 
   constructor(private httpClient: HttpClient) {
-    this.setAuthState(null);
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      this.userData = JSON.parse(userData);
+
+      this.setAuthState(this.userData.userId);
+    }
   }
 
   login(email: string, password: string) {
@@ -27,18 +32,19 @@ export class AuthService {
 
   setUser(data: any) {
     this.userData = data;
-    // localStorage.setItem("user", JSON.stringify(this.userData));
+
+    localStorage.setItem("userData", JSON.stringify(this.userData));
+
     // localStorage.setItem("email", this.userData.email);
     // localStorage.setItem("userId", this.userData.userId);
-    // localStorage.setItem("userName", this.userData.name);
-    // localStorage.setItem("userNickname", this.userData.nickname);
-    // localStorage.setItem("userAddress", this.userData.address);
-    // localStorage.setItem("userPhone", this.userData.phone);
-    // localStorage.setItem("token", this.userData.token);
+
     this.setAuthState(this.userData.userId);
   }
 
   private setAuthState(status: string | null) {
+    if (!status) {
+      localStorage.removeItem("userData");
+    }
     this._authStateSubject.next(status);
   }
 
