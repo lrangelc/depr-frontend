@@ -30,6 +30,7 @@ export interface IUser {
   job: string;
   monthlyIncome?: number;
   userType: string;
+  password?: string;
 }
 
 const ELEMENT_DATA: IUser[] = [];

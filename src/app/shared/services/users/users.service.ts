@@ -16,6 +16,7 @@ export class UsersService {
       Authorization: `Bearer ${this.authService.userData.token}`,
     },
   };
+
   constructor(
     private httpClient: HttpClient,
     private authService: AuthService
@@ -23,6 +24,18 @@ export class UsersService {
 
   getUsers() {
     return this.httpClient.get(`${this.url}`, this.options);
+  }
+
+  getUser(userId: string) {
+    return this.httpClient.get(`${this.url}/${userId}`, this.options);
+  }
+
+  createUser(data: any) {
+    return this.httpClient.post(`${this.url}`, data, this.options);
+  }
+
+  updateUser(userId: string, data: any) {
+    return this.httpClient.patch(`${this.url}/${userId}`, data, this.options);
   }
 
   deleteUser(userId: string) {
