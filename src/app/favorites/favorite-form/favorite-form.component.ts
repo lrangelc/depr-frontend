@@ -24,6 +24,10 @@ export class FavoriteFormComponent implements OnInit {
   get accountAlias() {
     return this.form.get("accountAlias");
   }
+ 
+  get accountName() {
+    return this.form.get("accountName");
+  }
 
   get accountCode() {
     return this.form.get("accountCode");
@@ -63,6 +67,7 @@ export class FavoriteFormComponent implements OnInit {
   buildForm() {
     this.form = this.formBuilder.group({
       accountAlias: ["", [Validators.required]],
+      accountName: ["", ],
       accountCode: ["", [Validators.required]],
       accountDpi: ["", [Validators.required]],
     });
@@ -85,6 +90,7 @@ export class FavoriteFormComponent implements OnInit {
   patchForm() {
     this.form.patchValue({
       accountAlias: this.document.accountAlias,
+      accountName: this.document.accountName,
       accountCode: this.document.accountCode,
       accountDpi: this.document.accountDpi,
     });
@@ -94,6 +100,7 @@ export class FavoriteFormComponent implements OnInit {
     event.preventDefault();
     if (this.form.valid) {
       this.document.accountAlias = this.accountAlias?.value;
+      this.document.accountName = this.accountName?.value;
       this.document.accountCode = this.accountCode?.value;
       this.document.accountDpi = this.accountDpi?.value;
 

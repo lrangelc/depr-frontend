@@ -22,6 +22,20 @@
               {{ accountAlias! | formErrorHandler }}</mat-error
             >
           </mat-form-field>
+
+          <mat-form-field fxFlex="auto">
+            <mat-label>
+              {{ "accountName" }}
+            </mat-label>
+            <input
+              matInput
+              type="text"
+              [formControlName]="'accountName'"
+            />
+            <mat-error *ngIf="accountName?.errors">
+              {{ accountName! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
         </div>
 
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">

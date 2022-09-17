@@ -4,6 +4,7 @@ export interface IFavorite {
   accountAlias: string;
   accountCode: number;
   accountDpi: string;
+  accountName?: string;
   userId: string;
   createdBy?: string;
 }
