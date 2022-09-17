@@ -16,6 +16,10 @@ export class AuthService {
 
   authState$ = this._authStateSubject.asObservable();
 
+  get userId() {
+    return this.userData.userId;
+  }
+
   constructor(private httpClient: HttpClient) {
     const userData = localStorage.getItem("userData");
     if (userData) {

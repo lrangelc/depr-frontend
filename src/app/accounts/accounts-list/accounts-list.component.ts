@@ -151,6 +151,7 @@ export class AccountsListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.selection.clear();
     }
   }
+
   setColumns() {
     this.columns = [
       {
@@ -162,18 +163,18 @@ export class AccountsListComponent implements OnInit, AfterViewInit, OnDestroy {
       {
         name: `Id.`,
         property: "_id",
+        visible: false,
+        isModelProperty: true,
+      },
+      {
+        name: `Code`,
+        property: "code",
         visible: true,
         isModelProperty: true,
       },
       {
         name: `Name`,
         property: "name",
-        visible: true,
-        isModelProperty: true,
-      },
-      {
-        name: `Code`,
-        property: "code",
         visible: true,
         isModelProperty: true,
       },

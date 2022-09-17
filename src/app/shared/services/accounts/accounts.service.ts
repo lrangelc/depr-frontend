@@ -41,4 +41,8 @@ export class AccountsService {
   deleteAccount(id: string) {
     return this.httpClient.delete(`${this.url}/${id}`, this.options);
   }
+
+  getAccountsByOwner(ownerId: string) {
+    return this.httpClient.get(`${this.url}/by-owner/${ownerId}`, this.options);
+  }
 }
