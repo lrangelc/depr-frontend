@@ -1,4 +1,5 @@
 <form [formGroup]="accountForm">
+  <mat-spinner *ngIf="processing"></mat-spinner>
   <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px">
     <div fxLayout="column" fxLayoutGap="8px">
       <mat-form-field>

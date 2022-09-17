@@ -5,6 +5,7 @@ import { MaterialModule } from "../material/material.module";
 import { FormErrorHandlerPipe } from "./pipes/form-error-handler/form-error-handler.pipe";
 import { AccountsComponent } from "./components/accounts/accounts.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FurySharedModule } from "src/@fury/fury-shared.module";
 
 @NgModule({
   declarations: [DialogComponent, FormErrorHandlerPipe, AccountsComponent],
@@ -14,6 +15,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     FormErrorHandlerPipe,
     AccountsComponent,
   ],
-  imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FurySharedModule,
+  ],
 })
 export class SharedModule {}

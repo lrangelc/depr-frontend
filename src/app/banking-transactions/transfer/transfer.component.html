@@ -1,1 +1,4 @@
-<p>transfer works!</p>
+<div class="actions">
+  <fury-accounts (accountSelected)="accountSelected($event)" [refreshAccount]="refreshAccount"></fury-accounts>
+  <button (click)="refresh()">refrescar</button>
+</div>
