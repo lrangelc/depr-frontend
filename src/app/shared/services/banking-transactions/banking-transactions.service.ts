@@ -32,4 +32,8 @@ export class BankingTransactionsService {
       this.options
     );
   }
+
+  transfer(data: any) {
+    return this.httpClient.post(`${this.url}/transfer`, data, this.options);
+  }
 }

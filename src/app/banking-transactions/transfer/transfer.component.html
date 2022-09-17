@@ -1,4 +1,90 @@
 <div class="actions">
-  <fury-accounts (accountSelected)="accountSelected($event)" [refreshAccount]="refreshAccount"></fury-accounts>
-  <button (click)="refresh()">refrescar</button>
+  <fury-accounts
+    (accountSelected)="accountSelected($event)"
+    [refreshAccount]="refreshAccount"
+  ></fury-accounts>
 </div>
+
+<mat-card>
+  <form [formGroup]="form" (ngSubmit)="submit($event)">
+    <mat-card-header>
+      <mat-card-title> Transferencia </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-spinner *ngIf="processing"></mat-spinner>
+      <div class="result" fxLayout="column">
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+          <mat-form-field fxFlex="auto">
+            <mat-label>
+              {{ "description" }}
+            </mat-label>
+            <input
+              matInput
+              type="text"
+              required
+              [formControlName]="'description'"
+            />
+            <mat-error *ngIf="description?.errors">
+              {{ description! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+          <mat-form-field class="col-12">
+            <mat-label>
+              {{ "code" }}
+            </mat-label>
+            <input matInput type="text" [formControlName]="'code'" />
+            <mat-error *ngIf="code?.errors">
+              {{ code! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
+
+          <mat-form-field class="col-12">
+            <mat-label>
+              {{ "dpi" }}
+            </mat-label>
+            <input matInput type="text" [formControlName]="'dpi'" />
+            <mat-error *ngIf="dpi?.errors">
+              {{ dpi! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+          <mat-form-field fxFlex="auto">
+            <mat-label>
+              {{ "amount" }}
+            </mat-label>
+            <input
+              matInput
+              type="number"
+              step="1"
+              required
+              [formControlName]="'amount'"
+            />
+            <mat-error *ngIf="amount?.errors">
+              {{ amount! | formErrorHandler }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <a mat-raised-button routerLink="/users"
+        ><mat-icon>cancel</mat-icon>Cancelar</a
+      >
+      <button
+        mat-raised-button
+        type="submit"
+        [disabled]="form.invalid"
+        color="primary"
+      >
+        <mat-icon>save</mat-icon>
+        Guardar
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

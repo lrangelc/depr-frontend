@@ -47,8 +47,6 @@ export class AccountsComponent implements OnInit, OnDestroy {
     if (this.refreshAccount) {
       this.subs.push(
         this.refreshAccount.subscribe((v) => {
-          console.log("value is changing", v);
-          console.log(new Date());
           this.loadAccount();
         })
       );
@@ -93,14 +91,9 @@ export class AccountsComponent implements OnInit, OnDestroy {
   changeAccount(event: any) {
     this.account = event;
     this.setAccount();
-
-    // if (this.searchRecords) {
-    //   this.loadDocuments();
-    // }
   }
 
   setAccount() {
-    console.log(this.account);
     this.accountSelected.emit(this.account);
 
     this.accountForm.controls["code"].setValue(this.account.code);
