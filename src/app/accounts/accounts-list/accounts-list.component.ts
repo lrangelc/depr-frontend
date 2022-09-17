@@ -247,7 +247,7 @@ export class AccountsListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   delete(document: IAccount) {
-    if (this.authService.userData.userId !== document._id) {
+    if (this.authService.userId !== document._id) {
       this.dialogService
         .openConfirmationDialog(
           "confirmation",

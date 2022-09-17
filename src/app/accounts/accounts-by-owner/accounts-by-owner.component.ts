@@ -57,6 +57,7 @@ export class AccountsByOwnerComponent
   account: IAccount | undefined;
 
   filterForm!: FormGroup;
+  accountForm!: FormGroup;
 
   range = new FormGroup({
     start: new FormControl(),
@@ -96,6 +97,11 @@ export class AccountsByOwnerComponent
   buildForm(): void {
     this.filterForm = this.formBuilder.group({
       accountControl: [null, Validators.required],
+    });
+
+    this.accountForm = this.formBuilder.group({
+      code: [""],
+      availableBalance: [0],
     });
   }
 
@@ -150,6 +156,10 @@ export class AccountsByOwnerComponent
         if (this.accounts.length > 0) {
           this.account = this.accounts[0];
           this.filterForm.get("accountControl").setValue(this.account);
+          this.accountForm.controls["code"].setValue(this.account.code);
+          this.accountForm.controls["availableBalance"].setValue(
+            this.account.availableBalance
+          );
         }
 
         this.processing = false;
@@ -236,6 +246,11 @@ export class AccountsByOwnerComponent
 
   changeAccount(event: any) {
     this.account = event;
+    this.accountForm.controls["code"].setValue(this.account.code);
+    this.accountForm.controls["availableBalance"].setValue(
+      this.account.availableBalance
+    );
+
     if (this.searchRecords) {
       this.loadDocuments();
     }
