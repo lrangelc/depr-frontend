@@ -15,9 +15,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Observable, Subscription } from "rxjs";
 
 import { ListColumn } from "src/app/models/list-column.model";
-import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { DialogService } from "src/app/shared/services/dialog/dialog.service";
-import { AccountsService } from "src/app/shared/services/accounts/accounts.service";
 import { IAccount } from "src/app/interfaces/account.interface";
 import {
   FormBuilder,
@@ -53,7 +51,6 @@ export class AccountsByOwnerComponent
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  accounts: IAccount[] = [];
   account: IAccount | undefined;
 
   accountForm!: FormGroup;
@@ -66,8 +63,6 @@ export class AccountsByOwnerComponent
   searchRecords = false;
 
   constructor(
-    private authService: AuthService,
-    private accountsService: AccountsService,
     private bankingTransactionsService: BankingTransactionsService,
     private _liveAnnouncer: LiveAnnouncer,
     private snackbar: MatSnackBar,
@@ -82,7 +77,6 @@ export class AccountsByOwnerComponent
     this.range.controls["end"].setValue(this.currentDate);
 
     this.setColumns();
-    this.loadAccounts();
   }
 
   ngAfterViewInit() {
@@ -142,36 +136,6 @@ export class AccountsByOwnerComponent
     return `${this.selection.isSelected(row) ? "deselect" : "select"} row ${
       row._id ?? +1
     }`;
-  }
-
-  loadAccounts() {
-    this.processing = true;
-    this.accountsService.getAccountsByOwner(this.authService.userId).subscribe(
-      (response: any) => {
-        this.accounts = response;
-        if (this.accounts.length > 0) {
-          this.account = this.accounts[0];
-          this.accountForm.get("accountControl").setValue(this.account);
-          this.setAccount();
-        }
-
-        this.processing = false;
-
-        this.snackbar.open(`Registros cargados!`, "Bank System", {
-          duration: 3000,
-        });
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
-  }
-
-  setAccount() {
-    this.accountForm.controls["code"].setValue(this.account.code);
-    this.accountForm.controls["availableBalance"].setValue(
-      this.account.availableBalance
-    );
   }
 
   setColumns() {
@@ -244,15 +208,6 @@ export class AccountsByOwnerComponent
     }
   }
 
-  changeAccount(event: any) {
-    this.account = event;
-    this.setAccount();
-
-    if (this.searchRecords) {
-      this.loadDocuments();
-    }
-  }
-
   addEventDatePicker(
     type: string,
     event: MatDatepickerInputEvent<Date>,
@@ -260,7 +215,7 @@ export class AccountsByOwnerComponent
   ) {
     try {
       if (controlName === "end") {
-        if (this.accounts.length > 0) {
+        if (this.account._id.length > 0) {
           this.searchRecords = true;
           this.loadDocuments();
         }
@@ -316,5 +271,12 @@ export class AccountsByOwnerComponent
   onSearchRecords() {
     this.searchRecords = true;
     this.loadDocuments();
+  }
+
+  accountSelected(account: IAccount) {
+    this.account = account;
+    if (this.searchRecords) {
+      this.loadDocuments();
+    }
   }
 }

@@ -1,40 +1,5 @@
 <div class="actions">
-  <form [formGroup]="accountForm">
-    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px">
-      <div fxLayout="column" fxLayoutGap="8px">
-        <mat-form-field>
-          <mat-label>Cuenta</mat-label>
-          <mat-select
-            formControlName="accountControl"
-            (valueChange)="changeAccount($event)"
-          >
-            <mat-option *ngFor="let account of accounts" [value]="account">
-              {{ account.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
-
-    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px">
-      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
-        <mat-form-field class="col-12">
-          <mat-label> No. de Cuenta </mat-label>
-          <input matInput type="text" [formControlName]="'code'" />
-        </mat-form-field>
-
-        <mat-form-field fxFlex="auto">
-          <mat-label> Monto Disponible </mat-label>
-          <input
-            matInput
-            type="number"
-            step="1"
-            [formControlName]="'availableBalance'"
-          />
-        </mat-form-field>
-      </div>
-    </div>
-  </form>
+  <fury-accounts (accountSelected)="accountSelected($event)"></fury-accounts>
 
   <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
     <div fxLayout="column" fxLayoutGap="8px">
