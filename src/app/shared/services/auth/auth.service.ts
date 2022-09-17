@@ -8,7 +8,7 @@ import { environment } from "../../../../environments/environment";
   providedIn: "root",
 })
 export class AuthService {
-  userData: any; // Save logged in user data
+  userData: any = null; // Save logged in user data
 
   private url = `${environment.backend}/api/login`;
 
@@ -17,7 +17,30 @@ export class AuthService {
   authState$ = this._authStateSubject.asObservable();
 
   get userId() {
-    return this.userData.userId;
+    return this.getPayload().userId;
+  }
+
+  get email() {
+    return this.getPayload().email;
+  }
+
+  get userType() {
+    return this.getPayload().userType;
+  }
+
+  get name() {
+    return this.userData ? this.userData.name : "";
+  }
+
+  get token() {
+    return this.userData.token;
+  }
+
+  getPayload() {
+    if (!this.userData) {
+      return { name: null };
+    }
+    return JSON.parse(atob(this.userData.token.split(".")[1]));
   }
 
   constructor(private httpClient: HttpClient) {
@@ -25,7 +48,7 @@ export class AuthService {
     if (userData) {
       this.userData = JSON.parse(userData);
 
-      this.setAuthState(this.userData.userId);
+      this.setAuthState(this.userId);
     }
   }
 
@@ -35,19 +58,18 @@ export class AuthService {
   }
 
   setUser(data: any) {
+    const payload = JSON.parse(atob(data.token.split(".")[1]));
     this.userData = data;
 
     localStorage.setItem("userData", JSON.stringify(this.userData));
 
-    // localStorage.setItem("email", this.userData.email);
-    // localStorage.setItem("userId", this.userData.userId);
-
-    this.setAuthState(this.userData.userId);
+    this.setAuthState(payload.userId);
   }
 
   private setAuthState(status: string | null) {
     if (!status) {
       localStorage.removeItem("userData");
+      this.userData = null;
     }
     this._authStateSubject.next(status);
   }

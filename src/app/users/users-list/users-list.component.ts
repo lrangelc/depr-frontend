@@ -113,7 +113,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
         const users = response.filter((element) => {
           return (
             element.userType === "user" ||
-            element._id === this.authService.userData.userId
+            element._id === this.authService.userId
           );
         });
         this.fillDataSource(users);
@@ -134,7 +134,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
       let newArray: IUser[] = [...this.dataSource.data];
 
       this.selection.selected.forEach((elementToDelete: IUser) => {
-        if (this.authService.userData.userId !== elementToDelete._id) {
+        if (this.authService.userId !== elementToDelete._id) {
           this.usersService.deleteUser(elementToDelete._id).subscribe(
             (response: any) => {
               if (response.success) {
@@ -243,7 +243,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   delete(document: IUser) {
-    if (this.authService.userData.userId !== document._id) {
+    if (this.authService.userId !== document._id) {
       this.dialogService
         .openConfirmationDialog(
           "confirmation",

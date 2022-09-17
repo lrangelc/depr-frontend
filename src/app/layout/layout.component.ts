@@ -89,7 +89,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       },
     ];
 
-    if (this.authService.userData.userType === "admin") {
+    if (this.authService.userType === "admin") {
       menuBase.push({
         name: "Administrar Usuarios",
         routeOrFunction: "/users",

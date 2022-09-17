@@ -169,7 +169,7 @@ export class AccountsByOwnerComponent
       {
         name: `select`,
         property: "select",
-        visible: true,
+        visible: false,
         isModelProperty: false,
       },
       {
@@ -248,7 +248,10 @@ export class AccountsByOwnerComponent
   ) {
     try {
       if (controlName === "end") {
-        this.loadDocuments();
+        if (this.accounts.length > 0) {
+          this.searchRecords = true;
+          this.loadDocuments();
+        }
       }
     } catch (err) {
       console.error(err);

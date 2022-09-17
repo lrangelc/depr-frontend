@@ -13,7 +13,7 @@ export class UsersService {
   options = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${this.authService.userData.token}`,
+      Authorization: `Bearer ${this.authService.token}`,
     },
   };
 
