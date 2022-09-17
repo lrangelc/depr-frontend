@@ -1,52 +1,72 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
-import { LayoutComponent } from './layout/layout.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { AuthGuard } from "./guards/auth.guard";
+import { LayoutComponent } from "./layout/layout.component";
 
 const routes: Routes = [
   {
-    path: 'login',
-    loadChildren: () => import('./pages/authentication/login/login.module').then(m => m.LoginModule),
+    path: "login",
+    loadChildren: () =>
+      import("./pages/authentication/login/login.module").then(
+        (m) => m.LoginModule
+      ),
   },
   {
-    path: 'register',
-    loadChildren: () => import('./pages/authentication/register/register.module').then(m => m.RegisterModule),
+    path: "register",
+    loadChildren: () =>
+      import("./pages/authentication/register/register.module").then(
+        (m) => m.RegisterModule
+      ),
   },
   {
-    path: 'forgot-password',
-    loadChildren: () => import('./pages/authentication/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule),
+    path: "forgot-password",
+    loadChildren: () =>
+      import(
+        "./pages/authentication/forgot-password/forgot-password.module"
+      ).then((m) => m.ForgotPasswordModule),
   },
   {
-    path: 'coming-soon',
-    loadChildren: () => import('./pages/coming-soon/coming-soon.module').then(m => m.ComingSoonModule),
+    path: "coming-soon",
+    loadChildren: () =>
+      import("./pages/coming-soon/coming-soon.module").then(
+        (m) => m.ComingSoonModule
+      ),
   },
   {
-    path: '',
+    path: "",
     canActivate: [AuthGuard],
     component: LayoutComponent,
     children: [
       {
-        path: '',
-        loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
-        pathMatch: 'full'
+        path: "",
+        loadChildren: () =>
+          import("./pages/dashboard/dashboard.module").then(
+            (m) => m.DashboardModule
+          ),
+        pathMatch: "full",
       },
       {
-        path: 'users',
-        loadChildren: () => import('./users/users.module').then(m => m.UsersModule),
+        path: "users",
+        loadChildren: () =>
+          import("./users/users.module").then((m) => m.UsersModule),
       },
       {
-        path: 'accounts',
-        loadChildren: () => import('./accounts/accounts.module').then(m => m.AccountsModule),
+        path: "accounts",
+        loadChildren: () =>
+          import("./accounts/accounts.module").then((m) => m.AccountsModule),
       },
       {
-        path: 'favorites',
-        loadChildren: () => import('./favorites/favorites.module').then(m => m.FavoritesModule),
+        path: "favorites",
+        loadChildren: () =>
+          import("./favorites/favorites.module").then((m) => m.FavoritesModule),
       },
       {
-        path: 'banking-transactions',
-        loadChildren: () => import('./banking-transactions/banking-transactions.module').then(m => m.BankingTransactionsModule),
+        path: "banking-transactions",
+        loadChildren: () =>
+          import("./banking-transactions/banking-transactions.module").then(
+            (m) => m.BankingTransactionsModule
+          ),
       },
-
 
       // {
       //   path: 'apps/inbox',
@@ -104,19 +124,27 @@ const routes: Routes = [
       //   path: 'level1/level2/level3/level4/level5',
       //   loadChildren: () => import('./pages/level5/level5.module').then(m => m.Level5Module),
       // },
-    ]
-  }
+    ],
+  },
+  {
+    path: "**",
+    loadChildren: () =>
+      import("./page-not-found/page-not-found.module").then(
+        (m) => m.PageNotFoundModule
+      ),
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    initialNavigation: 'enabled',
-    // preloadingStrategy: PreloadAllModules,
-    scrollPositionRestoration: 'enabled',
-    anchorScrolling: 'enabled',
-    relativeLinkResolution: 'legacy'
-  })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, {
+      initialNavigation: "enabled",
+      // preloadingStrategy: PreloadAllModules,
+      scrollPositionRestoration: "enabled",
+      anchorScrolling: "enabled",
+      relativeLinkResolution: "legacy",
+    }),
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}
