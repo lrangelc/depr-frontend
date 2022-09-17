@@ -63,6 +63,7 @@ export class AccountsByOwnerComponent
     end: new FormControl(),
   });
   currentDate: Date = new Date();
+  searchRecords = false;
 
   constructor(
     private authService: AuthService,
@@ -216,7 +217,7 @@ export class AccountsByOwnerComponent
       {
         name: `actions`,
         property: "actions",
-        visible: true,
+        visible: false,
         isModelProperty: false,
       },
     ] as ListColumn[];
@@ -235,7 +236,9 @@ export class AccountsByOwnerComponent
 
   changeAccount(event: any) {
     this.account = event;
-    this.loadDocuments();
+    if (this.searchRecords) {
+      this.loadDocuments();
+    }
   }
 
   addEventDatePicker(
@@ -270,7 +273,15 @@ export class AccountsByOwnerComponent
       this.processing = true;
 
       this.bankingTransactionsService
-        .getTransactionsByAccount(this.account._id)
+        .getTransactionsByAccount(
+          this.account._id,
+          `${startDate.getFullYear()}-${
+            startDate.getMonth() + 1
+          }-${startDate.getDate()}`,
+          `${endDate.getFullYear()}-${
+            endDate.getMonth() + 1
+          }-${endDate.getDate()}`
+        )
         .subscribe(
           (response: any) => {
             this.fillDataSource(response);
@@ -285,5 +296,10 @@ export class AccountsByOwnerComponent
           }
         );
     }
+  }
+
+  onSearchRecords() {
+    this.searchRecords = true;
+    this.loadDocuments();
   }
 }

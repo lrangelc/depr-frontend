@@ -22,9 +22,13 @@ export class BankingTransactionsService {
     private authService: AuthService
   ) {}
 
-  getTransactionsByAccount(accountId: string) {
+  getTransactionsByAccount(
+    accountId: string,
+    startDate: string,
+    endDate: string
+  ) {
     return this.httpClient.get(
-      `${this.url}/by-account/${accountId}`,
+      `${this.url}/by-account/${accountId}?start-date=${startDate}&end-date=${endDate}`,
       this.options
     );
   }
