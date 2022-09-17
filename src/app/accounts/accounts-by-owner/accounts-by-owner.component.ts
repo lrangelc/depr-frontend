@@ -26,6 +26,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { MatDatepickerInputEvent } from "@angular/material/datepicker";
+import { BankingTransactionsService } from "src/app/shared/services/banking-transactions/banking-transactions.service";
 
 const ELEMENT_DATA: IAccount[] = [];
 
@@ -66,6 +67,7 @@ export class AccountsByOwnerComponent
   constructor(
     private authService: AuthService,
     private accountsService: AccountsService,
+    private bankingTransactionsService: BankingTransactionsService,
     private _liveAnnouncer: LiveAnnouncer,
     private snackbar: MatSnackBar,
     private dialogService: DialogService,
@@ -140,22 +142,15 @@ export class AccountsByOwnerComponent
   }
 
   loadAccounts() {
+    this.processing = true;
     this.accountsService.getAccountsByOwner(this.authService.userId).subscribe(
       (response: any) => {
-        // response.forEach((element) => {
-        //   if (!element.lastTransaction) {
-        //     element.lastTransaction = {};
-        //   }
-        // });
         this.accounts = response;
         if (this.accounts.length > 0) {
-          this.filterForm.get("accountControl").setValue(this.accounts[0]);
-
-          // this.account = { ...this.accounts[0] };
-          // console.log(this.account)
+          this.account = this.accounts[0];
+          this.filterForm.get("accountControl").setValue(this.account);
         }
 
-        this.fillDataSource(response);
         this.processing = false;
 
         this.snackbar.open(`Registros cargados!`, "Bank System", {
@@ -166,30 +161,6 @@ export class AccountsByOwnerComponent
         console.error(err);
       }
     );
-  }
-
-  deleteRecords() {
-    if (this.selection.selected.length > 0) {
-      let newArray: IAccount[] = [...this.dataSource.data];
-
-      this.selection.selected.forEach((elementToDelete: IAccount) => {
-        this.accountsService.deleteAccount(elementToDelete._id).subscribe(
-          (response: any) => {
-            if (response.success) {
-              newArray = newArray.filter(
-                (element) => element._id !== elementToDelete._id
-              );
-              this.fillDataSource(newArray);
-            }
-          },
-          (err) => {
-            console.error(err);
-          }
-        );
-      });
-
-      this.selection.clear();
-    }
   }
 
   setColumns() {
@@ -207,62 +178,38 @@ export class AccountsByOwnerComponent
         isModelProperty: true,
       },
       {
-        name: `Name`,
-        property: "name",
-        visible: true,
-        isModelProperty: true,
-      },
-      {
-        name: `Code`,
-        property: "code",
-        visible: true,
-        isModelProperty: true,
-      },
-      {
-        name: `Credito`,
-        property: "totalCredit",
-        visible: true,
-        isModelProperty: true,
-      },
-      {
-        name: `Debito`,
-        property: "totalDebit",
-        visible: true,
-        isModelProperty: true,
-      },
-      {
-        name: `Available Balance`,
-        property: "availableBalance",
-        visible: true,
-        isModelProperty: true,
-      },
-      {
-        name: `Transactions`,
-        property: "countTransactions",
-        visible: true,
-        isModelProperty: true,
-      },
-      {
-        name: `Ultima Transaccion`,
-        property: "lastTransaction",
+        name: `Fecha`,
+        property: "createdAt",
         visible: true,
         isModelProperty: true,
       },
       {
         name: `Tipo`,
-        property: "lastTransaction.type",
+        property: "type",
         visible: true,
         isModelProperty: true,
       },
       {
         name: `Descripcion`,
-        property: "lastTransaction.description",
+        property: "description",
         visible: true,
         isModelProperty: true,
       },
       {
-        name: `Monto`,
-        property: "lastTransaction.amount",
+        name: `Credito`,
+        property: "credit",
+        visible: true,
+        isModelProperty: true,
+      },
+      {
+        name: `Debito`,
+        property: "debit",
+        visible: true,
+        isModelProperty: true,
+      },
+      {
+        name: `Balance`,
+        property: "balance",
         visible: true,
         isModelProperty: true,
       },
@@ -286,50 +233,6 @@ export class AccountsByOwnerComponent
     }
   }
 
-  delete(document: IAccount) {
-    if (this.authService.userData.userId !== document._id) {
-      this.dialogService
-        .openConfirmationDialog(
-          "confirmation",
-          "Eliminar Usuario",
-          `¿Estas seguro de eliminar el usuario ${document.name}?`,
-          "Cancelar",
-          "Eliminar"
-        )
-        .afterClosed()
-        .subscribe((res) => {
-          if (res) {
-            this.deleteDocument(document);
-          }
-        });
-    }
-  }
-
-  deleteDocument(document: IAccount) {
-    try {
-      this.accountsService.deleteAccount(document._id).subscribe(
-        (response: any) => {
-          if (response.success) {
-            this.loadAccounts();
-
-            this.snackbar.open(
-              `Se ha eliminado el usuario ${document.name}`,
-              "Bank System",
-              {
-                duration: 3000,
-              }
-            );
-          }
-        },
-        (err) => {
-          console.error(err);
-        }
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   changeAccount(event: any) {
     this.account = event;
     this.loadDocuments();
@@ -350,23 +253,37 @@ export class AccountsByOwnerComponent
   }
 
   loadDocuments() {
-    this.accountsService.getAccounts().subscribe(
-      (response: any) => {
-        response.forEach((element) => {
-          if (!element.lastTransaction) {
-            element.lastTransaction = {};
-          }
-        });
-        this.fillDataSource(response);
-        this.processing = false;
+    const startDate: Date = new Date(this.range.controls["start"].value);
+    const endDate: Date = new Date(this.range.controls["end"].value);
 
-        this.snackbar.open(`Registros cargados!`, "Bank System", {
-          duration: 3000,
-        });
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
+    startDate.setHours(0);
+    startDate.setMinutes(0);
+    startDate.setSeconds(0);
+    startDate.setMilliseconds(0);
+
+    endDate.setHours(23);
+    endDate.setMinutes(59);
+    endDate.setSeconds(59);
+    endDate.setMilliseconds(0);
+
+    if (startDate <= endDate) {
+      this.processing = true;
+
+      this.bankingTransactionsService
+        .getTransactionsByAccount(this.account._id)
+        .subscribe(
+          (response: any) => {
+            this.fillDataSource(response);
+            this.processing = false;
+
+            this.snackbar.open(`Registros cargados!`, "Bank System", {
+              duration: 3000,
+            });
+          },
+          (err) => {
+            console.error(err);
+          }
+        );
+    }
   }
 }
