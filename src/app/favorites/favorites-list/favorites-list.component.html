@@ -28,6 +28,33 @@
 
 <mat-spinner *ngIf="processing"></mat-spinner>
 
+<form [formGroup]="favoritesForm">
+  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px">
+    <div fxLayout="column" fxLayoutGap="8px">
+      <mat-form-field>
+        <mat-label>Favorito</mat-label>
+        <mat-select
+          formControlName="accountControl"
+          (valueChange)="changeFavorite($event)"
+        >
+          <mat-option *ngFor="let favorite of favorites" [value]="favorite">
+            {{ favorite.accountAlias }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+      <mat-form-field class="col-12">
+        <mat-label> No. de Cuenta </mat-label>
+        <input matInput type="text" [formControlName]="'accountCode'" />
+      </mat-form-field>
+    </div>
+  </div>
+</form>
+
 <mat-form-field appearance="standard">
   <mat-label>Filter</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />

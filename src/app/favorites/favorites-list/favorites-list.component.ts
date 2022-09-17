@@ -17,10 +17,11 @@ import { Observable, Subscription } from "rxjs";
 import { ListColumn } from "src/app/models/list-column.model";
 import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { DialogService } from "src/app/shared/services/dialog/dialog.service";
-import { AccountsService } from "src/app/shared/services/accounts/accounts.service";
-import { IAccount } from "src/app/interfaces/account.interface";
+import { FavoritesService } from "src/app/shared/services/favorites/favorites.service";
+import { IFavorite } from "src/app/interfaces/favorite.interface";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
-const ELEMENT_DATA: IAccount[] = [];
+const ELEMENT_DATA: IFavorite[] = [];
 
 @Component({
   selector: "fury-favorites-list",
@@ -33,7 +34,7 @@ export class FavoritesListComponent
   processing = false;
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-  selection = new SelectionModel<IAccount>(true, []);
+  selection = new SelectionModel<IFavorite>(true, []);
 
   subs: Subscription[] = [];
   attendanceRecords$!: Observable<any>;
@@ -45,13 +46,21 @@ export class FavoritesListComponent
   @ViewChild(MatSort)
   sort!: MatSort;
 
+  favorites: IFavorite[] = [];
+  favorite: IFavorite | undefined;
+
+  favoritesForm!: FormGroup;
+
   constructor(
     private authService: AuthService,
-    private accountsService: AccountsService,
+    private favoritesService: FavoritesService,
     private _liveAnnouncer: LiveAnnouncer,
     private snackbar: MatSnackBar,
-    private dialogService: DialogService
-  ) {}
+    private dialogService: DialogService,
+    private formBuilder: FormBuilder
+  ) {
+    this.buildForm();
+  }
 
   ngOnInit(): void {
     this.setColumns();
@@ -64,6 +73,24 @@ export class FavoritesListComponent
 
   ngOnDestroy() {
     this.subs.map((s) => s.unsubscribe);
+  }
+
+  buildForm(): void {
+    this.favoritesForm = this.formBuilder.group({
+      accountControl: [null, Validators.required],
+      accountCode: [""],
+    });
+  }
+
+  changeFavorite(event: any) {
+    this.favorite = event;
+    this.setFavorite();
+  }
+
+  setFavorite() {
+    this.favoritesForm.controls["accountCode"].setValue(
+      this.favorite.accountCode
+    );
   }
 
   fillDataSource(data: any) {
@@ -100,7 +127,7 @@ export class FavoritesListComponent
     this.selection.select(...this.dataSource.data);
   }
 
-  checkboxLabel(row?: IAccount): string {
+  checkboxLabel(row?: IFavorite): string {
     if (!row) {
       return `${this.isAllSelected() ? "deselect" : "select"} all`;
     }
@@ -110,32 +137,41 @@ export class FavoritesListComponent
   }
 
   loadDocuments() {
-    this.accountsService.getAccounts().subscribe(
-      (response: any) => {
-        response.forEach((element) => {
-          if (!element.lastTransaction) {
-            element.lastTransaction = {};
+    this.favoritesService
+      .getFavoritesByOwner(this.authService.userId)
+      .subscribe(
+        (response: any) => {
+          response.forEach((element) => {
+            if (!element.lastTransaction) {
+              element.lastTransaction = {};
+            }
+          });
+          this.favorites = response;
+          if (this.favorites.length > 0) {
+            this.favorite = this.favorites[0];
+            this.favoritesForm.get("accountControl").setValue(this.favorite);
+            this.setFavorite();
           }
-        });
-        this.fillDataSource(response);
-        this.processing = false;
 
-        this.snackbar.open(`Registros cargados!`, "Bank System", {
-          duration: 3000,
-        });
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
+          this.fillDataSource(response);
+          this.processing = false;
+
+          this.snackbar.open(`Registros cargados!`, "Bank System", {
+            duration: 3000,
+          });
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
   }
 
   deleteRecords() {
     if (this.selection.selected.length > 0) {
-      let newArray: IAccount[] = [...this.dataSource.data];
+      let newArray: IFavorite[] = [...this.dataSource.data];
 
-      this.selection.selected.forEach((elementToDelete: IAccount) => {
-        this.accountsService.deleteAccount(elementToDelete._id).subscribe(
+      this.selection.selected.forEach((elementToDelete: IFavorite) => {
+        this.favoritesService.deleteFavorite(elementToDelete._id).subscribe(
           (response: any) => {
             if (response.success) {
               newArray = newArray.filter(
@@ -248,13 +284,13 @@ export class FavoritesListComponent
     }
   }
 
-  delete(document: IAccount) {
+  delete(document: IFavorite) {
     if (this.authService.userId !== document._id) {
       this.dialogService
         .openConfirmationDialog(
           "confirmation",
           "Eliminar Usuario",
-          `¿Estas seguro de eliminar el usuario ${document.name}?`,
+          `¿Estas seguro de eliminar el favorito ${document.accountAlias}?`,
           "Cancelar",
           "Eliminar"
         )
@@ -267,15 +303,15 @@ export class FavoritesListComponent
     }
   }
 
-  deleteDocument(document: IAccount) {
+  deleteDocument(document: IFavorite) {
     try {
-      this.accountsService.deleteAccount(document._id).subscribe(
+      this.favoritesService.deleteFavorite(document._id).subscribe(
         (response: any) => {
           if (response.success) {
             this.loadDocuments();
 
             this.snackbar.open(
-              `Se ha eliminado el usuario ${document.name}`,
+              `Se ha eliminado el favorito ${document.accountAlias}`,
               "Bank System",
               {
                 duration: 3000,

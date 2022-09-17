@@ -3,66 +3,54 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 
-import { IAccount } from "src/app/interfaces/account.interface";
-import { AccountsService } from "src/app/shared/services/accounts/accounts.service";
+import { IFavorite } from "src/app/interfaces/favorite.interface";
+import { FavoritesService } from "src/app/shared/services/favorites/favorites.service";
 
 @Component({
-  selector: 'fury-favorite-form',
-  templateUrl: './favorite-form.component.html',
-  styleUrls: ['./favorite-form.component.scss']
+  selector: "fury-favorite-form",
+  templateUrl: "./favorite-form.component.html",
+  styleUrls: ["./favorite-form.component.scss"],
 })
 export class FavoriteFormComponent implements OnInit {
-  baseText = "Cuenta";
+  baseText = "Favorito";
   selectedBusinessId = "";
 
   title = this.baseText + " - ";
-  document: Partial<IAccount> = {};
+  document: Partial<IFavorite> = {};
   form!: FormGroup;
   paramId: string | null = null;
   ownerId: string | null = null;
 
-  get name() {
-    return this.form.get("name");
+  get accountAlias() {
+    return this.form.get("accountAlias");
   }
 
-  get startingAmount() {
-    return this.form.get("startingAmount");
+  get accountCode() {
+    return this.form.get("accountCode");
   }
 
-  get code() {
-    return this.form.get("code");
-  }
-
-  get totalCredit() {
-    return this.form.get("totalCredit");
-  }
-
-  get totalDebit() {
-    return this.form.get("totalDebit");
-  }
-
-  get availableBalance() {
-    return this.form.get("availableBalance");
+  get accountDpi() {
+    return this.form.get("accountDpi");
   }
 
   constructor(
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private accountsService: AccountsService,
+    private favoritesService: FavoritesService,
     private snackbar: MatSnackBar
   ) {
     this.buildForm();
     this.activatedRoute.params.subscribe((params: Params) => {
       if (params.userId) {
-        this.title += "Nueva";
+        this.title += "Nuevo";
         this.ownerId = params.userId;
       } else {
         if (params.id) {
           this.title += "Editar";
           this.paramId = params.id;
         } else {
-          this.title += "Nueva";
+          this.title += "Nuevo";
         }
       }
     });
@@ -74,18 +62,15 @@ export class FavoriteFormComponent implements OnInit {
 
   buildForm() {
     this.form = this.formBuilder.group({
-      name: ["", [Validators.required]],
-      startingAmount: [0, [Validators.required]],
-      code: [""],
-      totalCredit: [0],
-      totalDebit: [0],
-      availableBalance: [0],
+      accountAlias: ["", [Validators.required]],
+      accountCode: ["", [Validators.required]],
+      accountDpi: ["", [Validators.required]],
     });
   }
 
   async loadDocument(id: string | null) {
     if (id) {
-      this.accountsService.getAccount(id).subscribe(
+      this.favoritesService.getFavorite(id).subscribe(
         (response: any) => {
           this.document = response;
           this.patchForm();
@@ -99,43 +84,38 @@ export class FavoriteFormComponent implements OnInit {
 
   patchForm() {
     this.form.patchValue({
-      name: this.document.name,
-      startingAmount: this.document.startingAmount,
-      code: this.document.code,
-      totalCredit: this.document.totalCredit,
-      totalDebit: this.document.totalDebit,
-      availableBalance: this.document.availableBalance,
+      accountAlias: this.document.accountAlias,
+      accountCode: this.document.accountCode,
+      accountDpi: this.document.accountDpi,
     });
   }
 
   async submit(event: Event) {
     event.preventDefault();
     if (this.form.valid) {
-      this.document.name = this.name?.value;
-      this.document.startingAmount = this.startingAmount?.value;
-      this.document.code = this.code?.value;
-      this.document.totalCredit = this.totalCredit?.value;
-      this.document.totalDebit = this.totalDebit?.value;
-      this.document.availableBalance = this.availableBalance?.value;
+      this.document.accountAlias = this.accountAlias?.value;
+      this.document.accountCode = this.accountCode?.value;
+      this.document.accountDpi = this.accountDpi?.value;
 
       try {
         if (!this.document._id) {
           const newData = {
             ownerId: this.ownerId,
-            name: this.document.name,
-            startingAmount: this.document.startingAmount,
+            accountAlias: this.document.accountAlias,
+            accountCode: this.document.accountCode,
+            accountDpi: this.document.accountDpi,
           };
-          this.accountsService.createAccount(newData).subscribe(
+          this.favoritesService.createFavorite(newData).subscribe(
             (response: any) => {
               if (response.success) {
                 this.document._id = response._id;
-                this.router.navigate(["/accounts"]);
+                this.router.navigate(["/favorites"]);
               }
             },
             (err) => {
               console.error(err);
               this.snackbar.open(
-                `${err.error.message ?? "Error al agregar una nueva cuenta."}`,
+                `${err.error.message ?? "Error al agregar un nuevo favorito."}`,
                 "Bank System",
                 {
                   duration: 3000,
@@ -145,20 +125,20 @@ export class FavoriteFormComponent implements OnInit {
           );
         } else {
           const updateData = {
-            name: this.document.name,
+            accountAlias: this.document.accountAlias,
           };
-          this.accountsService
-            .updateAccount(this.document._id, updateData)
+          this.favoritesService
+            .updateFavorite(this.document._id, updateData)
             .subscribe(
               (response: any) => {
                 if (response.modifiedCount > 0) {
-                  this.router.navigate(["/accounts"]);
+                  this.router.navigate(["/favorites"]);
                 }
               },
               (err) => {
                 console.error(err);
                 this.snackbar.open(
-                  `${err.error.message ?? "Error al actualizar la cuenta."}`,
+                  `${err.error.message ?? "Error al actualizar un favorito."}`,
                   "Bank System",
                   {
                     duration: 3000,
@@ -181,4 +161,3 @@ export class FavoriteFormComponent implements OnInit {
     };
   }
 }
-

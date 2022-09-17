@@ -10,11 +10,16 @@
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
           <mat-form-field fxFlex="auto">
             <mat-label>
-              {{ "name" }}
+              {{ "accountAlias" }}
             </mat-label>
-            <input matInput type="text" required [formControlName]="'name'" />
-            <mat-error *ngIf="name?.errors">
-              {{ name! | formErrorHandler }}</mat-error
+            <input
+              matInput
+              type="text"
+              required
+              [formControlName]="'accountAlias'"
+            />
+            <mat-error *ngIf="accountAlias?.errors">
+              {{ accountAlias! | formErrorHandler }}</mat-error
             >
           </mat-form-field>
         </div>
@@ -22,79 +27,33 @@
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
           <mat-form-field fxFlex="auto">
             <mat-label>
-              {{ "startingAmount" }}
+              {{ "accountCode" }}
             </mat-label>
             <input
               matInput
               type="number"
               step="1"
               required
-              [formControlName]="'startingAmount'"
+              [formControlName]="'accountCode'"
             />
-            <mat-error *ngIf="startingAmount?.errors">
-              {{ startingAmount! | formErrorHandler }}</mat-error
+            <mat-error *ngIf="accountCode?.errors">
+              {{ accountCode! | formErrorHandler }}</mat-error
             >
           </mat-form-field>
 
           <mat-form-field fxFlex="auto">
             <mat-label>
-              {{ "availableBalance" }}
+              {{ "accountDpi" }}
             </mat-label>
             <input
               matInput
               type="number"
               step="1"
               required
-              [formControlName]="'availableBalance'"
+              [formControlName]="'accountDpi'"
             />
-            <mat-error *ngIf="availableBalance?.errors">
-              {{ availableBalance! | formErrorHandler }}</mat-error
-            >
-          </mat-form-field>
-        </div>
-
-        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
-          <mat-form-field class="col-12">
-            <mat-label>
-              {{ "code" }}
-            </mat-label>
-            <input matInput type="text" [formControlName]="'code'" />
-            <mat-error *ngIf="code?.errors">
-              {{ code! | formErrorHandler }}</mat-error
-            >
-          </mat-form-field>
-        </div>
-
-        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
-          <mat-form-field fxFlex="auto">
-            <mat-label>
-              {{ "totalCredit" }}
-            </mat-label>
-            <input
-              matInput
-              type="number"
-              step="1"
-              required
-              [formControlName]="'totalCredit'"
-            />
-            <mat-error *ngIf="totalCredit?.errors">
-              {{ totalCredit! | formErrorHandler }}</mat-error
-            >
-          </mat-form-field>
-
-          <mat-form-field fxFlex="auto">
-            <mat-label>
-              {{ "totalDebit" }}
-            </mat-label>
-            <input
-              matInput
-              type="number"
-              step="1"
-              required
-              [formControlName]="'totalDebit'"
-            />
-            <mat-error *ngIf="totalDebit?.errors">
-              {{ totalDebit! | formErrorHandler }}</mat-error
+            <mat-error *ngIf="accountDpi?.errors">
+              {{ accountDpi! | formErrorHandler }}</mat-error
             >
           </mat-form-field>
         </div>
@@ -102,7 +61,7 @@
     </mat-card-content>
 
     <mat-card-actions>
-      <a mat-raised-button routerLink="/users"
+      <a mat-raised-button routerLink="/favorites"
         ><mat-icon>cancel</mat-icon>Cancelar</a
       >
       <button
