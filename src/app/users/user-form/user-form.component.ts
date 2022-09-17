@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 
 import { IUser, IUserType } from "src/app/interfaces/user.interface";
-import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { UsersService } from "src/app/shared/services/users/users.service";
 
 @Component({
@@ -62,11 +62,11 @@ export class UserFormComponent implements OnInit {
   }
 
   constructor(
-    private authService: AuthService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private snackbar: MatSnackBar
   ) {
     this.buildForm();
     this.activatedRoute.params.subscribe((params: Params) => {
@@ -169,6 +169,13 @@ export class UserFormComponent implements OnInit {
             },
             (err) => {
               console.error(err);
+              this.snackbar.open(
+                `${err.error.message ?? "Error al agregar un nuevo usuario."}`,
+                "Bank System",
+                {
+                  duration: 3000,
+                }
+              );
             }
           );
         } else {
@@ -180,6 +187,13 @@ export class UserFormComponent implements OnInit {
             },
             (err) => {
               console.error(err);
+              this.snackbar.open(
+                `${err.error.message ?? "Error al actualizar el usuario."}`,
+                "Bank System",
+                {
+                  duration: 3000,
+                }
+              );
             }
           );
         }
