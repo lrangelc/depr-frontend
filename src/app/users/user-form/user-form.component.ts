@@ -1,10 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 
 import { IUser, IUserType } from "src/app/interfaces/user.interface";
@@ -76,10 +71,10 @@ export class UserFormComponent implements OnInit {
     this.buildForm();
     this.activatedRoute.params.subscribe((params: Params) => {
       if (params.id !== undefined && params.id !== null) {
-        this.title += "edit";
+        this.title += "Editar";
         this.paramId = params.id;
       } else {
-        this.title += "new";
+        this.title += "Nuevo";
       }
     });
   }

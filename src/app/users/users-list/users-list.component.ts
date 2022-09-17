@@ -165,7 +165,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
       {
         name: `Id.`,
         property: "_id",
-        visible: true,
+        visible: false,
         isModelProperty: true,
       },
       {

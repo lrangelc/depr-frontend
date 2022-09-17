@@ -8,9 +8,14 @@ import { AccountsListComponent } from "./accounts-list/accounts-list.component";
 import { AccountsByOwnerComponent } from "./accounts-by-owner/accounts-by-owner.component";
 import { MaterialModule } from "../material/material.module";
 import { SharedModule } from "../shared/shared.module";
+import { AccountFormComponent } from "./account-form/account-form.component";
 
 @NgModule({
-  declarations: [AccountsListComponent, AccountsByOwnerComponent],
+  declarations: [
+    AccountsListComponent,
+    AccountsByOwnerComponent,
+    AccountFormComponent,
+  ],
   imports: [
     CommonModule,
     MaterialModule,

@@ -198,8 +198,11 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button [routerLink]="['./edit', element._id]">
+        <button mat-icon-button [routerLink]="['./edit', element._id]"  matTooltip="Editar Usuario">
           <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button [routerLink]="['/accounts/new', element._id]" matTooltip="Nueva Cuenta">
+          <mat-icon>note_add</mat-icon>
         </button>
         <!-- <button mat-icon-button (click)="delete(element)">
           <mat-icon>delete</mat-icon>
