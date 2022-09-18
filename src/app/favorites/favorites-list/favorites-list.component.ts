@@ -153,8 +153,8 @@ export class FavoritesListComponent
     this.dialogService
       .openConfirmationDialog(
         "confirmation",
-        "Eliminar Usuario",
-        `¿Estas seguro de eliminar el favorito ${document.accountAlias}?`,
+        "Eliminar Favorito",
+        `¿Estas seguro de eliminar el favorito: ${document.accountAlias}?`,
         "Cancelar",
         "Eliminar"
       )

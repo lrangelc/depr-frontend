@@ -23,7 +23,7 @@
 <mat-spinner *ngIf="processing"></mat-spinner>
 
 <mat-form-field appearance="standard">
-  <mat-label>Filter</mat-label>
+  <mat-label>Filtrar</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
 </mat-form-field>
 <button
@@ -34,7 +34,7 @@
 >
   Eliminar Registros
 </button>
-<p>Registros: {{ dataSource.data.length }}</p>
+<p>Cuentas: {{ dataSource.data.length }}</p>
 
 <div class="mat-elevation-z8">
   <table
@@ -86,7 +86,7 @@
         mat-sort-header
         sortActionDescription="Sort by Name"
       >
-        Name
+        Nombre
       </th>
       <td mat-cell *matCellDef="let element">{{ element.name }}</td>
     </ng-container>
@@ -169,7 +169,7 @@
         Ultima Transaccion
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.lastTransaction.createdAt }}
+        {{ element.lastTransaction.createdAt | date: "dd/MM/yyyy HH:mm:ss" }}
       </td>
     </ng-container>
 

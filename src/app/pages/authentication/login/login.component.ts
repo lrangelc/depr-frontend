@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   inputType = "password";
   visible = false;
+  processing = false;
 
   constructor(
     private router: Router,
@@ -34,6 +35,7 @@ export class LoginComponent implements OnInit {
   }
 
   send() {
+    this.processing = true;
     this.authService
       .login(
         this.form.controls["email"].value,
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit {
       )
       .subscribe(
         (response: any) => {
+          this.processing = false;
           if (response.success) {
             this.authService.setUser(response.data);
             this.router.navigate(["/"]);
@@ -54,6 +57,7 @@ export class LoginComponent implements OnInit {
           }
         },
         (err) => {
+          this.processing = false;
           console.error(err);
           this.snackbar.open(
             `${err.error.message ?? "Usuario invalido."}`,

@@ -61,7 +61,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     const menuBase = [
       {
-        name: "Dashboard",
+        name: "Cuentas",
         routeOrFunction: "/",
         icon: "dashboard",
         position: 10,
@@ -76,12 +76,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
         position: 15,
       },
       {
-        name: "Cuentas",
-        routeOrFunction: "/accounts/by-owner",
-        icon: "date_range",
-        position: 20,
-      },
-      {
         name: "Transferencias",
         routeOrFunction: "/banking-transactions",
         icon: "inbox",
@@ -93,13 +87,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
       menuBase.push({
         name: "Administrar Usuarios",
         routeOrFunction: "/users",
-        icon: "layers",
+        icon: "mouse",
         position: 40,
       });
       menuBase.push({
         name: "Administrar Cuentas",
-        routeOrFunction: "/accounts",
-        icon: "mouse",
+        routeOrFunction: "/accounts/global",
+        icon: "layers",
         position: 55,
       });
     }

@@ -8,11 +8,11 @@ import { AccountFormComponent } from "./account-form/account-form.component";
 const routes: Routes = [
   {
     path: "",
-    component: AccountsListComponent,
+    component: AccountsByOwnerComponent,
   },
   {
-    path: "by-owner",
-    component: AccountsByOwnerComponent,
+    path: "global",
+    component: AccountsListComponent,
   },
   {
     path: "new/:userId",

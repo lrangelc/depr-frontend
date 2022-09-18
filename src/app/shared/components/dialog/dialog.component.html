@@ -20,14 +20,15 @@
   <div class="row justify-content-between">
     <button
       class="cancel-button primary-color cancel-button-margin"
-      mat-button
+      mat-raised-button
       [mat-dialog-close]="false"
     >
       {{ data.cancelBtnText }}
     </button>
     <button
       class="accept-button margin-button submit-button-margin"
-      mat-button
+      mat-raised-button
+      color="warn"
       [mat-dialog-close]="true"
     >
       {{ data.submitBtnText }}

@@ -9,9 +9,7 @@
       <div class="result" fxLayout="column">
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
           <mat-form-field fxFlex="auto">
-            <mat-label>
-              {{ "accountAlias" }}
-            </mat-label>
+            <mat-label> Alias </mat-label>
             <input
               matInput
               type="text"
@@ -24,14 +22,8 @@
           </mat-form-field>
 
           <mat-form-field fxFlex="auto">
-            <mat-label>
-              {{ "accountName" }}
-            </mat-label>
-            <input
-              matInput
-              type="text"
-              [formControlName]="'accountName'"
-            />
+            <mat-label> Nombre en la Cuenta </mat-label>
+            <input matInput type="text" [formControlName]="'accountName'" />
             <mat-error *ngIf="accountName?.errors">
               {{ accountName! | formErrorHandler }}</mat-error
             >
@@ -40,9 +32,7 @@
 
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
           <mat-form-field fxFlex="auto">
-            <mat-label>
-              {{ "accountCode" }}
-            </mat-label>
+            <mat-label> No. de Cuenta </mat-label>
             <input
               matInput
               type="number"
@@ -56,9 +46,7 @@
           </mat-form-field>
 
           <mat-form-field fxFlex="auto">
-            <mat-label>
-              {{ "accountDpi" }}
-            </mat-label>
+            <mat-label> DPI </mat-label>
             <input
               matInput
               type="number"

@@ -16,7 +16,7 @@
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
           <mat-form-field fxFlex="auto">
             <mat-label>
-              {{ "description" }}
+              Descripcion
             </mat-label>
             <input
               matInput
@@ -33,7 +33,7 @@
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
           <mat-form-field class="col-12">
             <mat-label>
-              {{ "code" }}
+              No. de Cuenta
             </mat-label>
             <input matInput type="text" [formControlName]="'code'" />
             <mat-error *ngIf="code?.errors">
@@ -43,7 +43,7 @@
 
           <mat-form-field class="col-12">
             <mat-label>
-              {{ "dpi" }}
+              DPI
             </mat-label>
             <input matInput type="text" [formControlName]="'dpi'" />
             <mat-error *ngIf="dpi?.errors">
@@ -55,7 +55,7 @@
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
           <mat-form-field fxFlex="auto">
             <mat-label>
-              {{ "amount" }}
+              Monto
             </mat-label>
             <input
               matInput

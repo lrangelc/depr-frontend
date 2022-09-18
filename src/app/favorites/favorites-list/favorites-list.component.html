@@ -71,26 +71,23 @@
     </form>
   </mat-tab>
   <mat-tab label="Transferir">
-    <section>
-      <header>
-        <div class="col">Origen</div>
-        <div class="col"></div>
-        <div class="col">Destino</div>
-      </header>
-      <div class="row">
-        <div class="col origin">
+    <div class="actions">
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px">
+        <div fxLayout="column" fxLayoutGap="8px">
+          <h3>Origen:</h3>
           <fury-accounts
             (accountSelected)="accountSelected($event)"
             [refreshAccount]="refreshAccount"
           ></fury-accounts>
         </div>
 
-        <div class="col">
+        <div fxLayout="column" fxLayoutGap="8px">
+          <h3>Datos de la Transferencia:</h3>
           <mat-card>
             <form [formGroup]="formTransfer" (ngSubmit)="submit($event)">
-              <mat-card-header>
-                <mat-card-title> Transferencia </mat-card-title>
-              </mat-card-header>
+              <!-- <mat-card-header>
+                <mat-card-title> Datos de la Transferencia </mat-card-title>
+              </mat-card-header> -->
               <mat-card-content>
                 <mat-spinner *ngIf="processing"></mat-spinner>
                 <div class="result" fxLayout="column">
@@ -100,9 +97,7 @@
                     fxLayoutGap.gt-sm="16px"
                   >
                     <mat-form-field fxFlex="auto">
-                      <mat-label>
-                        {{ "description" }}
-                      </mat-label>
+                      <mat-label> Descripcion </mat-label>
                       <input
                         matInput
                         type="text"
@@ -121,9 +116,7 @@
                     fxLayoutGap.gt-sm="16px"
                   >
                     <mat-form-field fxFlex="auto">
-                      <mat-label>
-                        {{ "amount" }}
-                      </mat-label>
+                      <mat-label> Monto </mat-label>
                       <input
                         matInput
                         type="number"
@@ -154,7 +147,8 @@
           </mat-card>
         </div>
 
-        <div class="col">
+        <div fxLayout="column" fxLayoutGap="8px">
+          <h3>Destino:</h3>
           <form [formGroup]="destinationFavoritesForm">
             <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px">
               <div fxLayout="column" fxLayoutGap="8px">
@@ -194,23 +188,6 @@
           </form>
         </div>
       </div>
-    </section>
-
-    <!-- <div class="flex-container">
-      <div style="flex-grow: 1">1</div>
-      <div style="flex-grow: 1">2</div>
-      <div style="flex-grow: 8">3</div>
-    </div> -->
-
-    <!-- <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px">
-      <div fxLayout="column" fxLayoutGap="8px">Origen</div>
-      <div fxLayout="column" fxLayoutGap="8px">Destino</div>
     </div>
-
-    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px">
-      <div fxLayout="column" fxLayoutGap="8px"></div>
-
-      <div fxLayout="column" fxLayoutGap="8px">b</div>
-    </div> -->
   </mat-tab>
 </mat-tab-group>

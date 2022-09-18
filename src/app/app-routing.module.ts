@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "./guards/auth.guard";
 import { LayoutComponent } from "./layout/layout.component";
+import { AccountsByOwnerComponent} from './accounts/accounts-by-owner/accounts-by-owner.component'
 
 const routes: Routes = [
   {
@@ -37,13 +38,18 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: LayoutComponent,
     children: [
+      // {
+      //   path: "",
+      //   loadChildren: () =>
+      //     import("./pages/dashboard/dashboard.module").then(
+      //       (m) => m.DashboardModule
+      //     ),
+      //   pathMatch: "full",
+      // },
       {
         path: "",
         loadChildren: () =>
-          import("./pages/dashboard/dashboard.module").then(
-            (m) => m.DashboardModule
-          ),
-        pathMatch: "full",
+          import("./accounts/accounts.module").then((m) => m.AccountsModule),
       },
       {
         path: "users",

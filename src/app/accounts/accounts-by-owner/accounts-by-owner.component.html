@@ -32,10 +32,10 @@
 
             <mat-error
               *ngIf="range.controls.start.hasError('matStartDateInvalid')"
-              >Invalid start date</mat-error
+              >Fecha Incial Invalida</mat-error
             >
             <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')"
-              >Invalid end date</mat-error
+              >Fecha Final Invalida</mat-error
             >
           </mat-form-field>
         </div>
@@ -48,7 +48,7 @@
             [disabled]="processing"
           >
             <mat-icon>search</mat-icon>
-            Buscar
+            Buscar Transacciones
           </button>
         </div>
       </div>
@@ -57,7 +57,6 @@
     <div fxLayout="column" fxLayoutGap="8px">
       <fury-exchange-rates
         (symbolSelected)="symbolSelected($event)"
-        
       ></fury-exchange-rates>
     </div>
   </div>
@@ -66,10 +65,10 @@
 <mat-spinner *ngIf="processing"></mat-spinner>
 
 <mat-form-field appearance="standard">
-  <mat-label>Filter</mat-label>
+  <mat-label>Filtrar</mat-label>
   <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
 </mat-form-field>
-<p>Registros: {{ dataSource.data.length }}</p>
+<p>Transacciones: {{ dataSource.data.length }}</p>
 
 <div class="mat-elevation-z8">
   <table
@@ -124,7 +123,7 @@
         Fecha
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.createdAt }}
+        {{ element.createdAt | date: "dd/MM/yyyy HH:mm:ss" }}
       </td>
     </ng-container>
 
