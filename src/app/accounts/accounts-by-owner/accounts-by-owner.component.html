@@ -1,46 +1,64 @@
 <div class="actions">
-  <fury-accounts (accountSelected)="accountSelected($event)"></fury-accounts>
-
-  <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px">
     <div fxLayout="column" fxLayoutGap="8px">
-      <mat-form-field appearance="fill">
-        <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-          <input
-            matStartDate
-            formControlName="start"
-            placeholder="Start date"
-            (dateChange)="addEventDatePicker('change', $event, 'start')"
-          />
-          <input
-            matEndDate
-            formControlName="end"
-            placeholder="End date"
-            (dateChange)="addEventDatePicker('change', $event, 'end')"
-          />
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
+      <fury-accounts
+        (accountSelected)="accountSelected($event)"
+        [refreshSymbol]="refreshSymbol"
+      ></fury-accounts>
 
-        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')"
-          >Invalid start date</mat-error
-        >
-        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')"
-          >Invalid end date</mat-error
-        >
-      </mat-form-field>
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+        <div fxLayout="column" fxLayoutGap="8px">
+          <mat-form-field appearance="fill">
+            <mat-label>Rango de Fechas</mat-label>
+            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+              <input
+                matStartDate
+                formControlName="start"
+                placeholder="Start date"
+                (dateChange)="addEventDatePicker('change', $event, 'start')"
+              />
+              <input
+                matEndDate
+                formControlName="end"
+                placeholder="End date"
+                (dateChange)="addEventDatePicker('change', $event, 'end')"
+              />
+            </mat-date-range-input>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+
+            <mat-error
+              *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+              >Invalid start date</mat-error
+            >
+            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+              >Invalid end date</mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="column" fxLayoutGap="8px">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="onSearchRecords()"
+            [disabled]="processing"
+          >
+            <mat-icon>search</mat-icon>
+            Buscar
+          </button>
+        </div>
+      </div>
     </div>
 
     <div fxLayout="column" fxLayoutGap="8px">
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="onSearchRecords()"
-        [disabled]="processing"
-      >
-        <mat-icon>search</mat-icon>
-        Buscar
-      </button>
+      <fury-exchange-rates
+        (symbolSelected)="symbolSelected($event)"
+        
+      ></fury-exchange-rates>
     </div>
   </div>
 </div>
@@ -146,7 +164,7 @@
         Credito
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.credit | number: "1.2-2" }}
+        {{ element.credit * symbol.rate | number: "1.2-2" }}
       </td>
     </ng-container>
 
@@ -160,7 +178,7 @@
         Debito
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.debit | number: "1.2-2" }}
+        {{ element.debit * symbol.rate | number: "1.2-2" }}
       </td>
     </ng-container>
 
@@ -174,7 +192,7 @@
         Saldo
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.balance | number: "1.2-2" }}
+        {{ element.balance * symbol.rate | number: "1.2-2" }}
       </td>
     </ng-container>
 

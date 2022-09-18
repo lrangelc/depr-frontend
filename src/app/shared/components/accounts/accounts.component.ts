@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Subject, Subscription } from "rxjs";
 import { IAccount } from "src/app/interfaces/account.interface";
+import { ISymbol } from "src/app/interfaces/exchangeRate.interface";
 import { AccountsService } from "../../services/accounts/accounts.service";
 import { AuthService } from "../../services/auth/auth.service";
 
@@ -21,6 +22,7 @@ import { AuthService } from "../../services/auth/auth.service";
 export class AccountsComponent implements OnInit, OnDestroy {
   @Output() accountSelected = new EventEmitter<IAccount>();
   @Input() refreshAccount: Subject<boolean>;
+  @Input() refreshSymbol: Subject<ISymbol>;
 
   subs: Subscription[] = [];
 
@@ -31,6 +33,14 @@ export class AccountsComponent implements OnInit, OnDestroy {
 
   searchRecords = false;
   processing = false;
+
+  symbol: ISymbol = {
+    currencyCode: "",
+    name: "",
+    order: 0,
+    rate: 1,
+    conversion: 1,
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,6 +58,15 @@ export class AccountsComponent implements OnInit, OnDestroy {
       this.subs.push(
         this.refreshAccount.subscribe((v) => {
           this.loadAccount();
+        })
+      );
+    }
+
+    if (this.refreshSymbol) {
+      this.subs.push(
+        this.refreshSymbol.subscribe((v) => {
+          this.symbol = v;
+          this.setAccount()
         })
       );
     }
@@ -96,10 +115,14 @@ export class AccountsComponent implements OnInit, OnDestroy {
   setAccount() {
     this.accountSelected.emit(this.account);
 
+    const availableBalance =
+      Math.round(
+        (this.account.availableBalance * this.symbol.rate + Number.EPSILON) *
+          100
+      ) / 100;
+
     this.accountForm.controls["code"].setValue(this.account.code);
-    this.accountForm.controls["availableBalance"].setValue(
-      this.account.availableBalance
-    );
+    this.accountForm.controls["availableBalance"].setValue(availableBalance);
   }
 
   loadAccount() {

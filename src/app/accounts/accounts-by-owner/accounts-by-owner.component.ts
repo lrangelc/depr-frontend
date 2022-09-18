@@ -12,7 +12,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSort, Sort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { Observable, Subscription } from "rxjs";
+import { Observable, Subject, Subscription } from "rxjs";
 
 import { ListColumn } from "src/app/models/list-column.model";
 import { DialogService } from "src/app/shared/services/dialog/dialog.service";
@@ -25,6 +25,7 @@ import {
 } from "@angular/forms";
 import { MatDatepickerInputEvent } from "@angular/material/datepicker";
 import { BankingTransactionsService } from "src/app/shared/services/banking-transactions/banking-transactions.service";
+import { ISymbol } from "src/app/interfaces/exchangeRate.interface";
 
 const ELEMENT_DATA: IAccount[] = [];
 
@@ -36,6 +37,8 @@ const ELEMENT_DATA: IAccount[] = [];
 export class AccountsByOwnerComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  refreshSymbol: Subject<ISymbol> = new Subject();
+
   processing = false;
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -61,6 +64,14 @@ export class AccountsByOwnerComponent
   });
   currentDate: Date = new Date();
   searchRecords = false;
+
+  symbol: ISymbol = {
+    currencyCode: "",
+    name: "",
+    order: 0,
+    rate: 1,
+    conversion: 1,
+  };
 
   constructor(
     private bankingTransactionsService: BankingTransactionsService,
@@ -278,5 +289,10 @@ export class AccountsByOwnerComponent
     if (this.searchRecords) {
       this.loadDocuments();
     }
+  }
+
+  symbolSelected(symbol: ISymbol) {
+    this.symbol = symbol;
+    this.refreshSymbol.next(this.symbol);
   }
 }
