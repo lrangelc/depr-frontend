@@ -19,6 +19,7 @@ import { AuthService } from "src/app/shared/services/auth/auth.service";
 import { DialogService } from "src/app/shared/services/dialog/dialog.service";
 import { AccountsService } from "src/app/shared/services/accounts/accounts.service";
 import { IAccount } from "src/app/interfaces/account.interface";
+import { ISymbol } from "src/app/interfaces/exchangeRate.interface";
 
 const ELEMENT_DATA: IAccount[] = [];
 
@@ -42,6 +43,14 @@ export class AccountsListComponent implements OnInit, AfterViewInit, OnDestroy {
   paginator!: MatPaginator;
   @ViewChild(MatSort)
   sort!: MatSort;
+
+  symbol: ISymbol = {
+    currencyCode: "",
+    name: "",
+    order: 0,
+    rate: 1,
+    conversion: 1,
+  };
 
   constructor(
     private authService: AuthService,
@@ -288,5 +297,9 @@ export class AccountsListComponent implements OnInit, AfterViewInit, OnDestroy {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  symbolSelected(symbol: ISymbol) {
+    this.symbol = symbol;
   }
 }

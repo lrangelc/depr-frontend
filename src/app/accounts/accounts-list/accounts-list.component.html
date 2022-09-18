@@ -13,7 +13,9 @@
     </div>
 
     <div fxLayout="column" fxLayoutGap="8px">
-      <fury-exchange-rates></fury-exchange-rates>
+      <fury-exchange-rates
+        (symbolSelected)="symbolSelected($event)"
+      ></fury-exchange-rates>
     </div>
   </div>
 </div>
@@ -111,7 +113,7 @@
         Credito
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.totalCredit | number: "1.2-2" }}
+        {{ element.totalCredit * symbol.rate | number: "1.2-2" }}
       </td>
     </ng-container>
 
@@ -125,7 +127,7 @@
         Debito
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.totalDebit | number: "1.2-2" }}
+        {{ element.totalDebit * symbol.rate | number: "1.2-2" }}
       </td>
     </ng-container>
 
@@ -139,7 +141,7 @@
         Saldo
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.availableBalance | number: "1.2-2" }}
+        {{ element.availableBalance * symbol.rate | number: "1.2-2" }}
       </td>
     </ng-container>
 
@@ -209,7 +211,7 @@
         Monto
       </th>
       <td mat-cell *matCellDef="let element">
-        {{ element.lastTransaction.amount }}
+        {{ element.lastTransaction.amount * symbol.rate | number: "1.2-2" }}
       </td>
     </ng-container>
 

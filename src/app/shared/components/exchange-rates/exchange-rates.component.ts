@@ -21,7 +21,7 @@ import { ISymbol } from "src/app/interfaces/exchangeRate.interface";
 })
 export class ExchangeRatesComponent implements OnInit, OnDestroy {
   @Output() symbolSelected = new EventEmitter<ISymbol>();
-  @Input() refreshAccount: Subject<boolean>;
+  @Input() refreshSymbol: Subject<boolean>;
 
   subs: Subscription[] = [];
 
@@ -47,9 +47,9 @@ export class ExchangeRatesComponent implements OnInit, OnDestroy {
     // this.loadLatest();
     this.loadSymbols();
 
-    if (this.refreshAccount) {
+    if (this.refreshSymbol) {
       this.subs.push(
-        this.refreshAccount.subscribe((v) => {
+        this.refreshSymbol.subscribe((v) => {
           this.loadDocument();
         })
       );
